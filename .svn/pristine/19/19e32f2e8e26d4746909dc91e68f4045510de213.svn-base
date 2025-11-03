@@ -1,0 +1,40 @@
+package com.msp.service;
+
+import com.msp.keymanager.moispkeymanagermodel.KeyManagerCaCertStore;
+import com.msp.keymanager.moispkeymangrepository.KeyManagrCaCertStoreRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.List;
+
+@Service
+@Qualifier("moispkeymangTransactionManager")
+@Transactional("moispkeymangTransactionManager")
+public class KeyMgrCaCertStoreService {
+    @Autowired
+    KeyManagrCaCertStoreRepository keyManagrCaCertStoreRepository;
+
+
+    public List<KeyManagerCaCertStore> getOrganisationRecord(String organisation, String domain) {
+        System.out.println("testing" +organisation);
+        return keyManagrCaCertStoreRepository.getOrganisationRecord(organisation,domain);
+    }
+    public KeyManagerCaCertStore certdel(String organisation) {
+      return   keyManagrCaCertStoreRepository.certdel(organisation);
+    }
+    public List<KeyManagerCaCertStore> certdeletion(String org, String type) {
+        return   keyManagrCaCertStoreRepository.certdeletion(org,type);
+    }
+
+    public void Delete(String val) {
+        keyManagrCaCertStoreRepository.deleteById(val);
+        System.out.println("deleted successfully"+val);
+    }
+
+   public List<KeyManagerCaCertStore> findByPartnerDomain(String partnerDomain){
+       return keyManagrCaCertStoreRepository.findByPartDomain(partnerDomain);
+   }
+}

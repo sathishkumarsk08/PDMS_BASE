@@ -1,0 +1,23 @@
+package com.msp.keymanager.moispkeymangrepository;
+
+
+import com.msp.keymanager.moispkeymanagermodel.KeyManagerCaCertStore;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface KeyManagrCaCertStoreRepository  extends CrudRepository<KeyManagerCaCertStore,String>  {
+
+
+    //    @Query(nativeQuery = true, "select * from keymgr.ca_cert_store where cert_subject like '%BM202305318800038%'")
+    @Query(nativeQuery = true, value="select * from keymgr.ca_cert_store where cert_subject like :organisation and partner_domain=:domain order by cr_dtimes asc ")
+    List<KeyManagerCaCertStore> getOrganisationRecord(@Param("organisation")String organisation,String domain);
+    @Query(nativeQuery = true, value="select * from keymgr.ca_cert_store where cert_subject like :organisation order by cr_dtimes asc limit 1")
+    KeyManagerCaCertStore certdel(String organisation);
+    @Query(nativeQuery = true, value="select * from keymgr.ca_cert_store where cert_subject like :org and partner_domain=:parttype")
+    List<KeyManagerCaCertStore> certdeletion(String org, String parttype);
+}

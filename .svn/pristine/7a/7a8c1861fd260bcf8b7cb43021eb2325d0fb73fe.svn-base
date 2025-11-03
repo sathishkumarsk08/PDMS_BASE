@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28 Nov, 2020 7:00:26 PM by Hibernate Tools 4.3.5.Final -->
+<hibernate-mapping>
+    <class name="com.msp.mosip_pms.model.partner" table="partner_type" optimistic-lock="version">
+        <id name="partnerType" type="java.lang.String">
+            <column name="code"/>
+            <generator class="assigned"/>
+        </id>
+        <property name="partnerDesc" type="java.lang.String">
+            <column name="partner_description" length="39"/>
+        </property>
+
+        <property name="policyRequired" type="boolean">
+            <column name="is_policy_required" length="39"/>
+        </property>
+
+        <property name="isActive" type="boolean">
+            <column name="is_active" />
+        </property>
+
+        <property name="createdBy" type="java.lang.String">
+            <column name="cr_by" length="39"/>
+        </property>
+        <property name="createdDatetime" type="java.lang.String">
+            <column name="cr_dtimes" length="39"/>
+        </property>
+        <property name="uploadBy" type="java.lang.String">
+            <column name="upd_by" length="39"/>
+        </property>
+        <property name="uploadDatetime" type="java.lang.String">
+            <column name="upd_dtimes" length="39"/>
+        </property>
+        <property name="isDeleted" type="boolean">
+            <column name="is_deleted" length="39"/>
+        </property>
+        <property name="deletedDatetime" type="java.lang.String">
+            <column name="del_dtimes" length="39"/>
+        </property>
+
+        <!-- <property name="outCode" type="java.lang.String">
+             <column name="code" length="36"/>
+         </property>-->
+
+    </class>
+</hibernate-mapping>

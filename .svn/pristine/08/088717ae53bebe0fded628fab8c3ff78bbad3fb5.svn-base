@@ -1,0 +1,301 @@
+package com.msp.controller;
+
+import com.msp.Bean.ReportLogBean;
+import com.msp.mosip_pms.model.MispLicenseKey;
+import com.msp.mosip_pms.model.PartnerPolicy;
+import com.msp.service.mosip_pms.MispLicenseKeyService;
+import com.msp.service.mosip_pms.PartnerPolicyService;
+import com.msp.service.mosip_pms.PartnerRegistrationService;
+import com.msp.service.msp_pms.DeviceModelRegistrationMSPService;
+import com.msp.service.msp_pms.MSPMsipLicenseService;
+import com.msp.service.msp_pms.MSPPartnerPolicyService;
+import com.msp.service.msp_pms.PartnerRegistrationMSPService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+@RestController
+public class ReportsController {
+    private static final Logger logger = LoggerFactory.getLogger(ReportsController.class);
+    @Autowired
+    private PartnerRegistrationMSPService partnerRegistrationMSPService;
+
+    @Autowired
+    private PartnerRegistrationService partnerRegistrationService;
+
+    @Autowired
+    private PartnerPolicyService partnerPolicyService;
+
+    @Autowired
+    private DeviceModelRegistrationMSPService deviceModelRegistrationMSPService;
+    @Autowired
+    private MSPMsipLicenseService mspMsipLicenseService;
+
+    @Autowired
+    private MispLicenseKeyService mispLicenseKeyService;
+
+
+    @Autowired
+    private MSPPartnerPolicyService mspPartnerPolicyService;
+
+@RequestMapping("/noOnboardPartnerList")
+    public  ArrayList<ReportLogBean> noOnboardedPartner(@RequestBody String reports){
+    logger.info("calling  partnerRegistrationMSPService from ReportsController for noOnboardPartnerList");
+    org.json.JSONObject jsonObject = new org.json.JSONObject(reports);
+    ArrayList<ReportLogBean> rptBean = new ArrayList<ReportLogBean>();
+    String startDate = jsonObject.get("strtDate").toString();
+    System.out.println("strtDate" + startDate);
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    LocalDateTime startDateTime = LocalDateTime.parse(startDate + " 00:00:00", formatter);
+    String endDate = jsonObject.get("endDate").toString();
+    System.out.println("strtDate" + endDate);
+    System.out.println(startDateTime);
+    LocalDateTime endDateTime = LocalDateTime.parse(endDate + " 23:59:59", formatter);
+    System.out.println(endDateTime);
+    List<Object[]> report;
+    if(jsonObject.get("mode").toString().equals("approved")){
+        report = partnerRegistrationService.noOnboardedPartner(jsonObject.get("mode").toString(),jsonObject.get("policyGroup").toString(),"Auth_Partner");
+    }else if(jsonObject.get("mode").toString().equals("suspended")){
+       report = partnerRegistrationMSPService.suspendedPartnerList(jsonObject.get("mode").toString());
+    }else if(jsonObject.get("mode").toString().equals("backlist")) {
+        report = partnerRegistrationMSPService.backlistPartnerList(jsonObject.get("mode").toString());
+    }else{
+        report = partnerRegistrationMSPService.revokePartnerList(jsonObject.get("mode").toString());
+    }
+
+    for(Object[] val : report){
+        ReportLogBean bean= new ReportLogBean();
+        bean.setPolicyGroup(val[0].toString());
+        bean.setPartnerId(val[1].toString());
+        bean.setOrganisation(val[2].toString());
+        bean.setMobile(val[3].toString());
+        bean.setEmail(val[4].toString());
+        bean.setStatus(val[5].toString());
+        rptBean.add(bean);
+    }
+
+    return rptBean;
+}
+
+
+    @RequestMapping("/noOnboardDeviceList")
+    public  ArrayList<ReportLogBean> noOnboardDeviceList(@RequestBody String reports){
+        logger.info("calling  deviceModelRegistrationMSPService from ReportsController for noOnboardDeviceList");
+        org.json.JSONObject jsonObject = new org.json.JSONObject(reports);
+        ArrayList<ReportLogBean> rptBean = new ArrayList<ReportLogBean>();
+        String startDate = jsonObject.get("strtDate").toString();
+        System.out.println("strtDate" + startDate);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime startDateTime = LocalDateTime.parse(startDate + " 00:00:00", formatter);
+        String endDate = jsonObject.get("endDate").toString();
+        System.out.println("strtDate" + endDate);
+        System.out.println(startDateTime);
+        LocalDateTime endDateTime = LocalDateTime.parse(endDate + " 23:59:59", formatter);
+        System.out.println(endDateTime);
+//        List<MSPDeviceModelRegistration> report;
+        List<Object[]> report;
+        if(jsonObject.get("mode").toString().equals("approved")){
+            report = partnerRegistrationService.noOnboardedDevice(jsonObject.get("mode").toString(),"Device_Provider");
+        } else if (jsonObject.get("mode").toString().equals("suspended")) {
+            report = deviceModelRegistrationMSPService.suspendedDeviceList(jsonObject.get("mode").toString());
+        } else if (jsonObject.get("mode").toString().equals("backlist")) {
+            report = deviceModelRegistrationMSPService.backlistDeviceList(jsonObject.get("mode").toString());
+        } else {
+            report = deviceModelRegistrationMSPService.revokeDeviceList(jsonObject.get("mode").toString());
+        }
+//
+//
+//        for(MSPDeviceModelRegistration val : report) {
+//            ReportLogBean bean= new ReportLogBean();
+//            bean.setPartnerId(val.getId());
+//            bean.setOrganisation(val.getName());
+//            bean.setMobile(val.getMobilenumber());
+//            bean.setEmail(val.getEmail());
+//            bean.setStatus(val.getStatus());
+//            rptBean.add(bean);
+//        }
+
+        for(Object[] val : report){
+            ReportLogBean bean= new ReportLogBean();
+            bean.setPartnerId(val[0].toString());
+            bean.setOrganisation(val[1].toString());
+            bean.setMobile(val[2].toString());
+            bean.setEmail(val[3].toString());
+            bean.setStatus(val[4].toString());
+            rptBean.add(bean);
+        }
+
+        return rptBean;
+    }
+
+    @RequestMapping("/noOnboardApiLicenseKey")
+    public  ArrayList<ReportLogBean> noOnboardApiLicenseKey(@RequestBody String reports){
+        logger.info("calling  mspPartnerPolicyService from ReportsController for noOnboardDeviceList");
+        org.json.JSONObject jsonObject = new org.json.JSONObject(reports);
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        ArrayList<ReportLogBean> rptBean = new ArrayList<ReportLogBean>();
+        String startDate = jsonObject.get("strtDate").toString();
+        System.out.println("strtDate" + startDate);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime startDateTime = LocalDateTime.parse(startDate + " 00:00:00", formatter);
+        String endDate = jsonObject.get("endDate").toString();
+        System.out.println("strtDate" + endDate);
+        System.out.println(startDateTime);
+        LocalDateTime endDateTime = LocalDateTime.parse(endDate + " 23:59:59", formatter);
+        System.out.println(endDateTime);
+        if(jsonObject.get("mode").toString().equals("API"))        {
+            System.out.println("enter into" +jsonObject.get("mode").toString());
+//            List<MSPPartnerPolicy> report =   mspPartnerPolicyService.getOnboardedApi(startDateTime ,endDateTime );
+            List<PartnerPolicy> report =   partnerPolicyService.getOnboardedApi();
+
+//        List<MSPDeviceModelRegistration> report = deviceModelRegistrationMSPService.noOnboardedDevice(jsonObject.get("mode").toString(),startDateTime,endDateTime);
+        for(PartnerPolicy val : report){
+            ReportLogBean bean= new ReportLogBean();
+            bean.setPartnerId(val.getPartId());
+            bean.setApi_license(val.getId());
+            LocalDateTime validFrom = val.getValidFrom();
+
+            String dateValidFrom = validFrom.format(formatter1);
+
+            bean.setValidFrom(dateValidFrom);
+            LocalDateTime validTo = val.getValidTo();
+            String dateValidTo = validTo.format(formatter1);
+
+            bean.setValidTo(dateValidTo);
+            bean.setActiveStatus(val.isActive());
+            rptBean.add(bean);
+        }
+        }else{
+//            List<MSPMosipLicense> report =   mspMsipLicenseService.getOnboardedLicense(startDateTime ,endDateTime );
+            List<MispLicenseKey> report =   mispLicenseKeyService.getOnboardedLicense();
+            for(MispLicenseKey val : report){
+                ReportLogBean bean= new ReportLogBean();
+                bean.setPartnerId(val.getId());
+                bean.setApi_license(val.getKey());
+                LocalDateTime validFrom = val.getValidFrom();
+
+                String dateValidFrom = validFrom.format(formatter1);
+
+                bean.setValidFrom(dateValidFrom);
+                LocalDateTime validTo = val.getValidTo();
+                String dateValidTo = validTo.format(formatter1);
+
+                bean.setValidTo(dateValidTo);
+                bean.setActiveStatus(val.isActive());
+                rptBean.add(bean);
+            }
+        }
+        return rptBean;
+    }
+//dashboard screen
+    @RequestMapping("/dashboardPartner")
+    public  ArrayList<ReportLogBean> dashboardPartnerList(@RequestBody String reports) {
+        logger.info("calling  partnerRegistrationMSPService from ReportsController for dashboardPartner");
+        org.json.JSONObject jsonObject = new org.json.JSONObject(reports);
+        ArrayList<ReportLogBean> rptBean = new ArrayList<ReportLogBean>();
+        String startDate = jsonObject.get("strtDate").toString();
+        System.out.println("strtDate" + startDate);
+        System.out.println(startDate);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime startDateTime = LocalDateTime.parse(startDate + " 00:00", formatter);
+        String endDate = jsonObject.get("endDate").toString();
+        System.out.println("strtDate" + endDate);
+        System.out.println(endDate);
+        LocalDateTime endDateTime = LocalDateTime.parse(endDate + " 00:00", formatter);
+//        List<Object[]> report = partnerRegistrationMSPService.noOfDashboardPolicyGrpList(startDateTime,endDateTime);
+        List<Object[]> report = partnerRegistrationService.noOfDashboardPolicyGrpList();
+        for(Object[] val : report){
+            ReportLogBean bean= new ReportLogBean();
+            bean.setCount((BigInteger) val[0]);
+            bean.setPolicyGroup(val[2].toString());
+            rptBean.add(bean);
+        }
+        return rptBean;
+    }
+    @RequestMapping("/dashboardAPILIcense")
+    public  ArrayList<ReportLogBean> dashboardAPILicenseList(@RequestBody String reports) {
+        logger.info("calling  partnerRegistrationMSPService from ReportsController for dashboardAPILIcense");
+        org.json.JSONObject jsonObject = new org.json.JSONObject(reports);
+        ArrayList<ReportLogBean> rptBean = new ArrayList<ReportLogBean>();
+        String startDate = jsonObject.get("strtDate").toString();
+        System.out.println("strtDate" + startDate);
+        System.out.println(startDate);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime startDateTime = LocalDateTime.parse(startDate + " 00:00", formatter);
+        String endDate = jsonObject.get("endDate").toString();
+        System.out.println("strtDate" + endDate);
+        System.out.println(endDate);
+        LocalDateTime endDateTime = LocalDateTime.parse(endDate + " 00:00", formatter);
+//        BigInteger report =   mspPartnerPolicyService.getDashboardAPIList(startDateTime ,endDateTime );
+        BigInteger report =   partnerPolicyService.getDashboardAPIList();
+            ReportLogBean bean= new ReportLogBean();
+            bean.setCount(report);
+            bean.setApi_license("API Key");
+            rptBean.add(bean);
+//        BigInteger licenseReport = mspMsipLicenseService.getDashboarLicenseList(startDateTime ,endDateTime );
+        BigInteger licenseReport = mispLicenseKeyService.getDashboarLicenseList();
+            ReportLogBean beanRpt= new ReportLogBean();
+            beanRpt.setCount(licenseReport);
+            beanRpt.setApi_license("MISP License");
+            rptBean.add(beanRpt);
+        return rptBean;
+    }
+    @RequestMapping("/dashboardPartSusBackRevoke")
+    public  ArrayList<ReportLogBean> dashboardPartSusBackRevoke(@RequestBody String reports) {
+        logger.info("calling  partnerRegistrationMSPService from ReportsController for dashboardPartSusBackRevoke");
+        org.json.JSONObject jsonObject = new org.json.JSONObject(reports);
+        ArrayList<ReportLogBean> rptBean = new ArrayList<ReportLogBean>();
+        String startDate = jsonObject.get("strtDate").toString();
+        System.out.println("strtDate" + startDate);
+        System.out.println(startDate);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime startDateTime = LocalDateTime.parse(startDate + " 00:00", formatter);
+        String endDate = jsonObject.get("endDate").toString();
+        System.out.println("strtDate" + endDate);
+        System.out.println(endDate);
+        LocalDateTime endDateTime = LocalDateTime.parse(endDate + " 00:00", formatter);
+        List<Object[]> report = partnerRegistrationMSPService.dashboardPartSusBackRevoke();
+        for(Object[] val : report){
+            ReportLogBean bean= new ReportLogBean();
+            bean.setCount((BigInteger)val[0]);
+            bean.setStatus(val[1].toString());
+            rptBean.add(bean);
+        }
+        return rptBean;
+    }
+    @RequestMapping("/dashboardDeviceSusBackRevoke")
+    public  ArrayList<ReportLogBean> dashboardDevicSusBackRevoke(@RequestBody String reports) {
+        logger.info("calling  deviceModelRegistrationMSPService from ReportsController for dashboardDeviceSusBackRevoke");
+        org.json.JSONObject jsonObject = new org.json.JSONObject(reports);
+        ArrayList<ReportLogBean> rptBean = new ArrayList<ReportLogBean>();
+        String startDate = jsonObject.get("strtDate").toString();
+        System.out.println("strtDate" + startDate);
+        System.out.println(startDate);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime startDateTime = LocalDateTime.parse(startDate + " 00:00", formatter);
+        String endDate = jsonObject.get("endDate").toString();
+        System.out.println("strtDate" + endDate);
+        System.out.println(endDate);
+        LocalDateTime endDateTime = LocalDateTime.parse(endDate + " 00:00", formatter);
+        List<Object[]> report = deviceModelRegistrationMSPService.dashboardDevicSusBackRevoke();
+        for(Object[] val : report){
+            ReportLogBean bean= new ReportLogBean();
+            bean.setCount((BigInteger)val[0]);
+            bean.setStatus(val[1].toString());
+            rptBean.add(bean);
+        }
+        return rptBean;
+    }
+}

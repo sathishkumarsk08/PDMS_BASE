@@ -1,0 +1,189 @@
+package com.msp.pms.msppmsrepository;
+
+import com.msp.mosip_pms.model.PartnerRegistration;
+import com.msp.pms.msppmsmodel.MSPPartnerRegistration;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Component
+@Repository
+public interface MSPPartnerRegistrationRepository extends CrudRepository<MSPPartnerRegistration, String> {
+
+    @Query(nativeQuery = true, value = "SELECT partner_id from msppms.partner_registration_old ORDER BY part_crdtimes DESC limit 1 ")
+    public String maxPartnerId();
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update MSPPartnerRegistration u set u.deleted=false , u.suspended=:susId where u.partnerId=:partnerId ")
+    public int DeActivate(String partnerId,String susId);
+
+    @Query(value = "SELECT t  from MSPPartnerRegistration t where t.partStatus=:status ORDER BY t.partcrDtTime DESC")
+    List<MSPPartnerRegistration> viewPartnerReg(String status);
+
+    @Query(value = "SELECT t  from MSPPartnerRegistration t  where t.partnerId=:partnerId ORDER BY t.partcrDtTime DESC")
+    List<MSPPartnerRegistration> getPartnerDtailId(String partnerId);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update MSPPartnerRegistration u set u.certificateAlias=:certificateId, u.partStatus='approved', u.isactive=true where u.partnerId=:partnerId ")
+    int certificateAlias(String partnerId, String certificateId);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update MSPPartnerRegistration u set u.susBlackStatus=:actionPerformed , u.suspended=:suspenId,u.isactive=false where u.partnerId=:partnerId ")
+    void suspendedPartner(String actionPerformed,String partnerId, String suspenId);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update MSPPartnerRegistration u set u.susBlackStatus=:actionPerformed , u.blacklisted=:suspenId , u.isactive=false where u.partnerId=:partnerId ")
+    void backListPartner(String actionPerformed,String partnerId, String suspenId);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update MSPPartnerRegistration u set u.partStatus=:actionPerformed , u.revoked=:suspenId where u.partnerId=:partnerId ")
+    void revokedPartner(String actionPerformed,String partnerId, String suspenId);
+
+    @Query(value = "SELECT t from MSPPartnerRegistration t where t.partnerId=:partnerId")
+    MSPPartnerRegistration getEmailId(String partnerId);
+
+    @Query(value = "SELECT t from MSPPartnerRegistration t where t.partnerId=:partnerId")
+    MSPPartnerRegistration getalldata(String partnerId);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update  MSPPartnerRegistration u set u.partStatus='InProgress' where u.partnerId=:partnerId")
+    int certificateAliasdel(String partnerId);
+
+    @Query(nativeQuery = true, value = "select pg.policy_group_name, pr.partner_id, pr.orga_name,pr.mobile_no, pr.email_id,pr.part_status  from msppms.partner_registration_old pr \n" +
+            "inner join msppms.policy_group pg\n" +
+            "on pg.policy_group_id = pr.policy_group\n" +
+            "where part_status=:status and part_crdtimes >=:strtDate and part_crdtimes <=:endDate")
+    List<Object[]> noOnboardedPartner(String status, LocalDateTime strtDate, LocalDateTime endDate);
+
+
+    @Query(nativeQuery = true, value = "select count(*),pr.policy_group,pg.policy_group_name from msppms.partner_registration_old pr\n" +
+            "inner join msppms.policy_group pg\n" +
+            "on pg.policy_group_id=pr.policy_group\n" +
+            "where pr.part_crdtimes>=:strtDate and pr.part_crdtimes<=:endDate group by pr.policy_group,pg.policy_group_name\n")
+    List<Object[]> noOfDashboardPolicyGrpList(LocalDateTime strtDate, LocalDateTime endDate);
+
+    @Query(nativeQuery = true, value = "select count(*),part_status from  msppms.partner_registration_old \n" +
+            "where part_status in ('suspended','backlist','revovke')  group by part_status")
+   List<Object[]> dashboardPartSusBackRevoke();
+
+    @Query(value = "SELECT t  from MSPPartnerRegistration t  where t.partnerId=:partnerId")
+    List<MSPPartnerRegistration> getPartnerDetailId(String partnerId);
+
+    @Query ("select t from MSPPartnerRegistration t order by t.flag asc")
+    List<MSPPartnerRegistration> notificationList();
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update MSPPartnerRegistration u set u.flag=1 where u.partnerId=:partner ")
+    void changeNotificationList(String partner);
+
+    @Query(value = "Select t.selfAssessment from MSPPartnerRegistration t where t.partnerId=:selfass ")
+    String getselfass(String selfass);
+
+    @Query(value = "Select t.nonDisclosureAgreement from MSPPartnerRegistration t where t.partnerId=:partnerId ")
+    String getnondisclosure(String partnerId);
+
+    @Query(value = "Select t.psaApproval from MSPPartnerRegistration t where t.partnerId=:partnerId ")
+    String getpsaapproval(String partnerId);
+
+    @Query(value = "Select t.otherDocument from MSPPartnerRegistration t where t.partnerId=:partnerId ")
+    String getother(String partnerId);
+
+    @Modifying
+    @Query(value = "update  MSPPartnerRegistration u set u.isactive=:status, u.susBlackStatus=null where u.partnerId= :id")
+    int UpdateStatus(String id, boolean status);
+
+
+    @Query(value = "SELECT t.organisationName  from MSPPartnerRegistration t  where t.partnerId=:partnerId")
+    public String getPartnerDetails(String partnerId);
+    @Modifying
+    @Query(value = "update  MSPPartnerRegistration u set u.suspended=null, u.susBlackStatus=null, u.isactive=true where u.partnerId= :id")
+    int deleteSuspensionId(String id);
+
+    @Modifying
+    @Query(value = "update  MSPPartnerRegistration u set u.blacklisted=null, u.susBlackStatus=null, u.isactive=true where u.partnerId= :id")
+    int deleteBlackListId(String id);
+
+    @Query(value = "SELECT t  from MSPPartnerRegistration t  where t.partnerType=:parttype and (t.psaApproval is not null  AND LENGTH(t.psaApproval) > 0" +
+            "or t.otherDocument is not null  AND LENGTH(t.otherDocument) > 0 or t.selfAssessment is not null  AND LENGTH(t.selfAssessment) > 0 or t.nonDisclosureAgreement is not null  AND LENGTH(t.nonDisclosureAgreement) > 0)")
+    List<MSPPartnerRegistration> getPartner(String parttype);
+
+    @Query(nativeQuery = true, value = "select pg.policy_group_name, pr.partner_id, pr.orga_name,pr.mobile_no, pr.email_id,pr.part_status  from msppms.partner_registration_old pr \n" +
+            "inner join msppms.policy_group pg\n" +
+            "on pg.policy_group_id = pr.policy_group\n" +
+            " inner join msppms.partner_suspension ps\n" +
+            "on ps.partner_id = pr.partner_id\n" +
+            "where pr.sus_black_status=:status  group by  pg.policy_group_name, pr.partner_id, pr.orga_name,pr.mobile_no, pr.email_id,pr.part_status")
+    List<Object[]> suspendedPartnerList(String status);
+
+    @Query(nativeQuery = true, value = "select pg.policy_group_name, pr.partner_id, pr.orga_name,pr.mobile_no, pr.email_id,pr.part_status  from msppms.partner_registration_old pr \n" +
+            "inner join msppms.policy_group pg\n" +
+            "on pg.policy_group_id = pr.policy_group\n" +
+            " inner join msppms.partner_blacklisted ps\n" +
+            "on ps.partner_id = pr.partner_id\n" +
+            "where pr.sus_black_status=:status  group by  pg.policy_group_name, pr.partner_id, pr.orga_name,pr.mobile_no, pr.email_id,pr.part_status")
+    List<Object[]> backlistPartnerList(String status);
+
+    @Query(nativeQuery = true, value = "select pg.policy_group_name, pr.partner_id, pr.orga_name,pr.mobile_no, pr.email_id,pr.part_status  from msppms.partner_registration_old pr \n" +
+            "inner join msppms.policy_group pg\n" +
+            "on pg.policy_group_id = pr.policy_group\n" +
+            " inner join msppms.partner_revoked ps\n" +
+            "on ps.partner_id = pr.partner_id\n" +
+            "where pr.sus_black_status=:status   group by  pg.policy_group_name, pr.partner_id, pr.orga_name,pr.mobile_no, pr.email_id,pr.part_status")
+    List<Object[]> revokePartnerList(String status);
+
+    @Query(value = "SELECT count(t)  from MSPPartnerRegistration t  where t.partnerType=:parttype and t.emailId=:emailId and t.organisationName=:organizationName")
+    int getPMSOrganizationEmailId(String parttype,String emailId, String organizationName);
+
+    @Query(value = "SELECT t.partnerId from MSPPartnerRegistration t  where t.partnerType=:parttype and t.emailId=:emailId and t.organisationName=:organizationName group by t.partnerId")
+    String getPmsPartnerId(String parttype, String emailId, String organizationName);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update  MSPPartnerRegistration u set u.mobileNumber=:contact where u.partnerId= :partnerId")
+    int update(String partnerId, String contact);
+
+    @Query(value = "SELECT count(t)  from MSPPartnerRegistration t  where t.flag=0")
+    Long flagCount();
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update  MSPPartnerRegistration u set u.policyGroup=:policies where u.partnerId= :partId and u.partnerType=:partnerType")
+    int updatePolicyGroup(String policies, String partId, String partnerType);
+
+    MSPPartnerRegistration findAllByPartnerId(String id);
+
+
+    void deleteByPartnerId(String partnerId);
+
+    @Query(value = "SELECT t.partnerId  from MSPPartnerRegistration t where t.partnerType in ('MISP_Partner' ,'Auth_Partner','Credential_Partner')")
+    List<String> getMSPPartnerRegAuthList();
+
+    @Query(value = "SELECT t.partnerId  from MSPPartnerRegistration t where t.partnerType in ('MISP_Partner' ,'Auth_Partner','Credential_Partner') and t.susBlackStatus is null")
+    List<String> getMSNotInPSusBlackPartnerRegAuthList();
+
+    @Query(value = "SELECT t.partnerId  from MSPPartnerRegistration t where t.partnerType in ('MISP_Partner' ,'Auth_Partner','Credential_Partner') and t.susBlackStatus=:val")
+    List<String> getMSPSusBlackPartnerRegAuthList(String val);
+
+    @Query(value = "SELECT t.partnerId  from MSPPartnerRegistration t where t.partnerType in ('MISP_Partner' ,'Auth_Partner','Credential_Partner') and t.selectedType=:filterVal and t.susBlackStatus=:val")
+    List<String> getMSPFilterSusBlackPartnerRegAuthList(String val, String filterVal);
+
+    @Query(value = "SELECT t.partnerId  from MSPPartnerRegistration t where t.partnerType in ('MISP_Partner' ,'Auth_Partner','Credential_Partner') and t.selectedType=:filterVal and t.susBlackStatus is null")
+    List<String> getMSPFilterNotInPSusBlackPartnerRegAuthList(String filterVal);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update  MSPPartnerRegistration u set u.partStatus='InProgress' where u.partnerId=:partnerId")
+    int certificateAliasdelForRootInter(String partnerId);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update  MSPPartnerRegistration u set u.partStatus='approved' where u.partnerId=:partnerId")
+    int certificateAliasUpdateForRootInter(String partnerId);
+
+
+    @Query(value = "SELECT t.partnerId  from MSPPartnerRegistration t where t.partnerType in ('MISP_Partner' ,'Auth_Partner','Credential_Partner') and t.susBlackStatus=:val and t.policyGroup=:policyGroupId and t.partcrDtTime between :startDate and :endDate")
+    List<String> getMSPSusBlackPartnerRegList(String val, String policyGroupId, String startDate , String endDate);
+}
+
+

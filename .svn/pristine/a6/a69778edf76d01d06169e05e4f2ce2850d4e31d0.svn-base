@@ -1,0 +1,220 @@
+package com.msp.service.msp_pms;
+
+import com.msp.mosip_pms.model.PolicyGroup;
+import com.msp.pms.msppmsmodel.MSPPartnerRegistration;
+import com.msp.pms.msppmsmodel.Userdetails;
+import com.msp.pms.msppmsrepository.MSPPartnerRegistrationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Service
+@Qualifier("mspPmsTransactionManager")
+@Transactional("mspPmsTransactionManager")
+public class PartnerRegistrationMSPService {
+
+
+//    @Autowired
+//    private EntityManager em;
+    @Autowired
+    private MSPPartnerRegistrationRepository partnerRegistrationRepository;
+
+    public String maxUserid() {
+
+        return partnerRegistrationRepository.maxPartnerId();
+    } //
+
+    public List<MSPPartnerRegistration> viewPartnerReg(String val){
+        return partnerRegistrationRepository.viewPartnerReg(val);
+    }//
+//    public boolean save(MSPPartnerRegistration reg) {
+//        return false;
+//    }
+    public MSPPartnerRegistration save(MSPPartnerRegistration reg){
+         return partnerRegistrationRepository.save(reg);
+    }
+
+//    public boolean save(MSPPartnerRegistration reg) {
+//        boolean out = true;
+//        try {
+//            em.persist(reg);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            out = false;
+//        }
+//        return out;
+//
+//    }
+
+    public int update(String partnerId,String contact){
+//        partnerRegistrationRepository.deleteById(partnerId);
+        return partnerRegistrationRepository.update(partnerId,contact);
+    }
+
+
+    public boolean  DeActivate(String partnerId,String susId) {
+        boolean out = true;
+        try {
+            int value= partnerRegistrationRepository.DeActivate(partnerId,susId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            out = false;
+        }
+
+        return out;
+
+    }//
+
+    public List<MSPPartnerRegistration> getPartnerIdDetail(String partnerId) {
+        return partnerRegistrationRepository.getPartnerDetailId(partnerId);
+    }
+
+    public int certificateAlias(String partnerId, String certificateId) {
+        return partnerRegistrationRepository.certificateAlias(partnerId,certificateId);
+    }
+
+    public void suspendedPartner(String actionPerformed,String partnerId,String suspenId) {
+         partnerRegistrationRepository.suspendedPartner(actionPerformed,partnerId, suspenId);
+    }
+    public void backListPartner(String actionPerformed,String partnerId,String suspenId) {
+        partnerRegistrationRepository.backListPartner(actionPerformed,partnerId, suspenId);
+    }
+    public void revokedPartner(String actionPerformed,String partnerId,String suspenId) {
+        partnerRegistrationRepository.revokedPartner(actionPerformed,partnerId, suspenId);
+    }
+    public int certificateAliasdel(String partnerId) {
+        return partnerRegistrationRepository.certificateAliasdel(partnerId);
+    }
+
+
+    public MSPPartnerRegistration getEmailId(String partnerId) {
+        return partnerRegistrationRepository.getEmailId(partnerId);
+    }
+    public MSPPartnerRegistration getalldata(String partnerId) {
+        return partnerRegistrationRepository.getalldata(partnerId);
+    }
+    public List<Object[]> noOnboardedPartner(String status, LocalDateTime strtDate, LocalDateTime endDate) {
+        return partnerRegistrationRepository.noOnboardedPartner(status,strtDate,endDate);
+    }
+
+    public List<Object[]> noOfDashboardPolicyGrpList(LocalDateTime strtDate, LocalDateTime endDate) {
+        return partnerRegistrationRepository.noOfDashboardPolicyGrpList(strtDate,endDate);
+    }
+
+    public List<Object[]> dashboardPartSusBackRevoke(LocalDateTime strtDate, LocalDateTime endDate) {
+        return partnerRegistrationRepository.dashboardPartSusBackRevoke(strtDate,endDate);
+    }
+    public List<MSPPartnerRegistration> notificationList() {
+        return partnerRegistrationRepository.notificationList();
+    }
+    public void changeNotificationList( String partner) {
+        partnerRegistrationRepository.changeNotificationList(partner);
+    }
+    public String getselfass(String selfass) {
+        return partnerRegistrationRepository.getselfass(selfass);
+    }
+
+    public String getnondisclosure(String partnerId) {
+        return partnerRegistrationRepository.getnondisclosure(partnerId);
+    }
+
+    public String getpsaapproval(String partnerId) {
+
+        return partnerRegistrationRepository.getpsaapproval(partnerId);
+    }
+
+    public String getother(String partnerId) {
+
+        return partnerRegistrationRepository.getother(partnerId);
+    }
+
+    public int UpdateStatus(String Id ,boolean status) {
+        return partnerRegistrationRepository.UpdateStatus(Id ,status);
+    }
+
+    public String getPartnerDetails(String partnerId) {
+        return partnerRegistrationRepository.getPartnerDetails(partnerId);
+    }
+
+    public int deleteSuspensionId(String partnerId) {
+        return partnerRegistrationRepository.deleteSuspensionId(partnerId);
+    }
+    public int deleteBlackListId(String partnerId) {
+        return partnerRegistrationRepository.deleteBlackListId(partnerId);
+    }
+
+    public List<MSPPartnerRegistration> getPartner(String parttype) {
+        return partnerRegistrationRepository.getPartner(parttype);
+    }
+
+    public List<Object[]> suspendedPartnerList(String mode, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return partnerRegistrationRepository.suspendedPartnerList(mode,startDateTime,endDateTime);
+    }
+    public List<Object[]> backlistPartnerList(String mode, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return partnerRegistrationRepository.backlistPartnerList(mode,startDateTime,endDateTime);
+    }
+    public List<Object[]> revokePartnerList(String mode, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return partnerRegistrationRepository.revokePartnerList(mode,startDateTime,endDateTime);
+    }
+
+    public int getPMSOrganizationEmailId(String partnerType,String emailId, String organizationName) {
+        return partnerRegistrationRepository.getPMSOrganizationEmailId( partnerType,emailId,organizationName);
+    }
+
+    public String getPmsPartnerId(String partnerType, String emailId, String organizationName) {
+        return partnerRegistrationRepository.getPmsPartnerId( partnerType,emailId,organizationName);
+    }
+
+    public void deleteById(String partnerId) {
+        partnerRegistrationRepository.deleteByPartnerId(partnerId);
+    }
+
+    public Long flagCount() {
+        return partnerRegistrationRepository.flagCount();
+    }
+
+    public int updatePolicyGroup(String policies, String partId, String partnerType) {
+        return partnerRegistrationRepository.updatePolicyGroup(policies,partId,partnerType);
+    }
+
+    public boolean updateMSPPartnerRegistration(MSPPartnerRegistration user, String id) {
+            boolean out = true;
+            try {
+                MSPPartnerRegistration s=partnerRegistrationRepository.findAllByPartnerId(id);
+                s.setAuthenticationRepName(user.getAuthenticationRepName());
+                s.setMobileNumber(user.getMobileNumber());
+                String strOrg = user.getOtherDocument();
+                String strDiclo = user.getNonDisclosureAgreement();
+                String strSelfAss = user.getSelfAssessment();
+                String strPsa = user.getPsaApproval();
+                if (strOrg != null && !strOrg.isEmpty()) {
+                    s.setOtherDocument(strOrg);
+                }   if (strDiclo != null && !strDiclo.isEmpty()) {
+                    s.setNonDisclosureAgreement(strDiclo);
+                }
+                    if (strSelfAss != null && !strSelfAss.isEmpty()) {
+                    s.setSelfAssessment(strSelfAss);
+                }
+                    if (strPsa != null && !strPsa.isEmpty()) {
+                    s.setSelfAssessment(strPsa);
+                }
+
+                partnerRegistrationRepository.save(s);
+
+                out = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                out = false;
+            }
+
+            return out;
+        }
+
+
+
+}

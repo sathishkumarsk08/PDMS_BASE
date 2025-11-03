@@ -1,0 +1,34 @@
+template={"id": "string","metadata": {},"request": {},"requesttime": "","version": "string"}
+auth.policies={"allowedAuthTypes": [{"authSubType": "IRIS","authType": "bio","mandatory": false}]}
+menuTemplate={"request": {}}
+auth.appid=admin
+auth.pwd=mosip
+auth.username=110011
+#
+# auth.appid=regproc
+# auth.pwd=abc123
+# auth.username=mosip-regproc-client
+
+authTokenType = policy
+
+# base.url=https://apps.pdccl.philsys.gov.ph
+
+base.url=https://api.apps-external.ocp.mspsandbox.com
+
+version=/v1
+partnermanager.partner.url=/partnermanager/partners
+partnermanager.partner.misp=/partnermanager/misps
+authmanager.url=/authmanager/authenticate/useridPwd
+policymanager.url=/policymanager/policies
+sms.url=/notifier/sms/send
+mail.url=/notifier/email/send
+# authmanager.url=/authmanager/authenticate/clientidsecretkey
+
+
+
+tsp.url=http://127.0.0.1:8085
+hostUrl=http://172.19.33.139:8080/PDMS
+
+mail.notification.enable = true
+sms.notification.enable = true
+

@@ -1,0 +1,121 @@
+package com.msp.mosip_pms.repository;
+
+import com.msp.mosip_pms.model.PartnerRegistration;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Component
+@Repository
+public interface PartnerRegistrationRepository extends CrudRepository<PartnerRegistration, String> {
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update PartnerRegistration u set u.active=false  where u.id=:partnerId")
+    public int DeActivate(String partnerId);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update  PartnerRegistration u set u.certificate=null, u.approvalStatus='InProgress', u.active='false' where u.id=:partnerId ")
+    int certificateAliasdel(String partnerId);
+
+    @Query(nativeQuery = true, value = "select id from pms.partner order by cr_dtimes desc limit 1 ")
+    public String maxPartnerId();
+
+
+    @Query(value = "SELECT t  from PartnerRegistration t where t.approvalStatus=:status and t.active=:action and t.partnerType=:type ORDER BY t.crDTime DESC")
+    List<PartnerRegistration> viewPartnerReg(String status, boolean action ,String type);
+
+
+    @Query(value = "SELECT t.name from PartnerRegistration t  where t.id=:partnerId")
+    public String getPartnerDetails(String partnerId);
+
+    @Query(value = "SELECT t from PartnerRegistration t where t.id=:partnerId")
+    PartnerRegistration  getEmailId(String partnerId);
+
+    @Query(value = "SELECT t  from PartnerRegistration t  where t.id=:partnerId")
+    List<PartnerRegistration> getPartnerDetailId(String partnerId);
+
+    @Query(value = "SELECT t from PartnerRegistration t where t.id=:partnerId")
+    PartnerRegistration getalldata(String partnerId);
+
+    @Query(value = "SELECT t from PartnerRegistration t where t.partnerType='Device_Provider' and t.active=true ")
+    List<PartnerRegistration> getAllDevice();
+
+    @Query(value = "SELECT t from PartnerRegistration t where t.groupId=:policyGroupId and t.active=true and t.approvalStatus='approved'")
+    List<PartnerRegistration> findAllPolicyGroupPartner(String policyGroupId);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update  PartnerRegistration u set u.active=true where u.id=:partnerId ")
+    int updatePartnerStatus(String partnerId);
+
+    @Query(nativeQuery = true, value = "select pg.name as policygrpname, pr.id, pr.name as partnername,pr.contact_no, pr.email_id,pr.approval_status  from pms.partner pr \n" +
+            "inner join pms.policy_group pg\n" +
+            "on pg.id = pr.policy_group_id\n" +
+            "where pr.approval_status=:status and pr.policy_group_id=:policyGroupId and pr.cr_dtimes >=:strtDate and pr.cr_dtimes <=:endDate and pr.partner_type_code=:type")
+    List<Object[]> noOnboardedPartner(String status, String policyGroupId, LocalDateTime strtDate, LocalDateTime endDate, String type);
+
+
+    @Query(nativeQuery = true, value = "select count(*),pr.policy_group_id,pg.name from pms.partner pr\n" +
+            "inner join pms.policy_group pg\n" +
+            "on pg.id=pr.policy_group_id\n" +
+            "where pr.cr_dtimes>=:strtDate and pr.cr_dtimes<=:endDate group by pr.policy_group_id,pg.name\n")
+    List<Object[]> noOfDashboardPolicyGrpList(LocalDateTime strtDate, LocalDateTime endDate);
+
+    @Query(nativeQuery = true, value = "select pr.id, pr.name as partnername,pr.contact_no, pr.email_id,pr.approval_status  from pms.partner pr \n" +
+            "where pr.approval_status=:status and pr.cr_dtimes >=:strtDate and pr.cr_dtimes <=:endDate and pr.partner_type_code=:type")
+    List<Object[]> noOnboardedDevice(String status, LocalDateTime strtDate, LocalDateTime endDate, String type);
+
+    @Query(value = "SELECT count(t) from PartnerRegistration t where t.partnerType=:partnerId and t.email=:emailId and t.name=:organizationName ")
+    int getMOSIPOrganizationEmailId(String partnerId,String emailId, String organizationName);
+
+    @Query(value = "SELECT t from PartnerRegistration t where t.partnerType=:partnerId and t.email=:emailId and t.name=:organizationName")
+    PartnerRegistration getMOSIPPartnerId(String partnerId, String emailId, String organizationName);
+
+    @Query(value = "SELECT t from PartnerRegistration t where t.name=:organizationName")
+    PartnerRegistration findByOrganization(String organizationName);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update  PartnerRegistration u set u.groupId=:policies where u.id=:partId  and u.partnerType=:partnerType")
+    int updatePolicyGroup(String policies, String partId, String partnerType);
+
+    @Query(value = "SELECT t  from PartnerRegistration t where t.partnerType=:type  ORDER BY t.crDTime DESC")
+    List<PartnerRegistration> partnerRegList(String type);
+
+    @Query(value = "SELECT t  from PartnerRegistration t where t.partnerType in ('MISP_Partner' ,'Auth_Partner')  ORDER BY t.crDTime DESC")
+    List<PartnerRegistration> partnerRegAuthMISPList();
+
+//    @Query(nativeQuery = true,value = "SELECT *  from pms.partner t where t.partner_type_code=:type and t.id in (select r.partner_id from msppms.partner_registration_old r) ORDER BY t.cr_dtimes DESC")
+//    List<PartnerRegistration> partnerRegList(String type);
+//
+//    @Query(nativeQuery = true,value = "SELECT *  from pms.partner t where t.partner_type_code=:type and t.id in (select r.device_id from msppms.device_model_register r) ORDER BY t.cr_dtimes DESC")
+//    List<PartnerRegistration> deviceRegList(String type);
+
+    PartnerRegistration findAllById(String partnerId);
+
+    @Query(value = "SELECT count(t)  from PartnerRegistration t where t.email=:emailId ")
+    int checkEmailId(String emailId);
+
+    @Query(value = "SELECT count(t)  from PartnerRegistration t where t.groupId=:groupId ")
+    int checkPolicyGroupId(String groupId);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update  PartnerRegistration u set u.crBy=:userId where u.id=:partnerId" )
+    void changeUserId(String partnerId, String userId);
+
+    @Query(value = "SELECT t from PartnerRegistration t where t.groupId=:policyGroupId and t.active=true and t.approvalStatus='approved' and t.partnerType='MISP_Partner'")
+    List<PartnerRegistration> findAllTSPPartner(String policyGroupId);
+
+
+    @Query(value = "SELECT t from PartnerRegistration t where t.groupId=:policyGroupId ")
+    List<PartnerRegistration> findAllPoliciesGroupPartner(String policyGroupId);
+
+    @Query(value = "SELECT count(t)  from PartnerRegistration t where t.partnerType in ('MISP_Partner' ,'Auth_Partner')")
+    int getAuthPartnerCount();
+
+    @Query(value = "SELECT count(t)  from PartnerRegistration t where t.partnerType in ('Device_Provider' ,'FTM_Provider')")
+    int getDeviceCount();
+}

@@ -1,0 +1,88 @@
+package com.msp.pms.msppmsrepository;
+
+import com.msp.pms.msppmsmodel.MSPPolicyType;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
+@Repository
+public interface MSPPolicyTypeRepository extends CrudRepository<MSPPolicyType, Integer> {
+
+    @Query(value = "SELECT u FROM MSPPolicyType u where u.active=true")
+    public List<MSPPolicyType>
+    viewPolicyType();
+
+
+//
+    @Query(nativeQuery = true,value = "select pt.policy_type_id, pt.policy_group_id,pt.policy_type_name as policiesName,pt.policy_file_id,pt.is_active,pg.policy_group_name as policygroupname from msppms.policy_type as pt \n" +
+            "inner join msppms.policy_group as pg on pt.policy_group_id = pg.policy_group_id  where pt.rej_app_status =1  order by pt. policy_type_crdtimes desc")
+//    @Query(value = "SELECT t1 FROM MSPPolicyType t1 inner join fetch  t1.policyGroup  order by t1.crDtTime desc ")
+    ArrayList<Object[]> getPolicyGroupType(boolean status);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update MSPPolicyType u set u.active=:activeVal, u.flag=1 where u.policyTypeId=:policyId and u.policyGroupId=:policyGroupId")
+    int activatePolicy(boolean activeVal,String policyId, String policyGroupId);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update MSPPolicyType u set u.rejectApprovalStatus=0 where u.policyTypeId=:policyId and u.policyGroupId=:policyGroupId")
+    int rejectPolicy(String policyId, String policyGroupId);
+
+    @Query(nativeQuery = true,value = "select pt.policy_type_id,pt.policy_type_name,pr.partner_id,pg.policy_group_id,pg.policy_group_name \n" +
+            "from msppms.policy_type pt\n" +
+            "inner join msppms.partner_registration_old pr\n" +
+            "on pt.policy_group_id=pr.policy_group\n" +
+            "inner join msppms.policy_group pg\n" +
+            "on pg.policy_group_id=pr.policy_group where pt.is_active='true' and pr.part_status = 'approved' and pr.partner_type='Auth_Partner' order by pt.policy_type_crdtimes desc")
+    List<Object[]> generateapikey();
+
+    @Query ("select t from MSPPolicyType t order by t.flag asc")
+    List<MSPPolicyType> notificationList();
+
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update MSPPolicyType u set u.flag=1 where u.policyTypeId=:api ")
+    void changeNotificationList(String api);
+
+    @Query(value = "SELECT t  from MSPPolicyType t  where t.policyTypeId=:policytypeid")
+    List<MSPPolicyType> getPolicytypeDetail(String policytypeid);
+
+    @Query(value = "SELECT count(t)  from MSPPartnerPolicyRequest t  where t.flag=0")
+    Long flagCount();
+
+    MSPPolicyType findAllByPolicyTypeId (String id);
+
+
+    void deleteByPolicyTypeId(String xyz);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update MSPPolicyType u set u.policyTypeId=:id  where u.policyTypeId=:xyz ")
+    void changeId(String id, String xyz);
+
+    @Query(value = "SELECT t.policyTypeId  from MSPPolicyType t  where t.rejectApprovalStatus=0")
+    List<String> getRejectedPolicies();
+
+    @Query(value = "SELECT t.policyTypeId  from MSPPolicyType t  where t.rejectApprovalStatus=0 and t.createdBy=:userId")
+    List<String> getRejectedPolicies(String userId);
+
+    @Query(value = "SELECT t.policyTypeId  from MSPPolicyType t  where t.rejectApprovalStatus=1 and t.active=true")
+    List<String> getApprovedPolicies();
+
+    @Query(value = "SELECT t.policyTypeId  from MSPPolicyType t  where t.rejectApprovalStatus=1 and t.active=true and t.createdBy=:userId")
+    List<String> getApprovedPolicies(String userId);
+
+    @Query(value = "SELECT t.policyTypeId  from MSPPolicyType t  where t.rejectApprovalStatus=1 and t.active=false")
+    List<String> getWaitingPolicies();
+
+    @Query(value = "SELECT t.policyTypeId  from MSPPolicyType t  where t.rejectApprovalStatus=1 and t.active=false and t.createdBy=:userId")
+    List<String> getWaitingPolicies(String userId);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update MSPPolicyType u set u.createdBy=:userId  where u.policyTypeId=:id ")
+    void changeUserId(String userId, String id);
+}

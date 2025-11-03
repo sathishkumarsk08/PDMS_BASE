@@ -1,0 +1,63 @@
+package com.msp.mosip_pms.repository;
+
+import com.msp.mosip_pms.model.PartnerPolicy;
+import com.msp.pms.msppmsmodel.MSPPartnerPolicy;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Repository("mosip_partner")
+public interface PartnerPolicyRepository extends CrudRepository<PartnerPolicy,String > {
+
+@Query(value="Select t from PartnerPolicy t where t.id=:apiKey ")
+    PartnerPolicy getApiKeyDetails(String apiKey);
+
+    @Query(nativeQuery = true,value = "select pt.name,ppr.part_id ,ppr.id,ppr.status_code from pms.partner_policy_request as ppr \n" +
+            "inner join pms.auth_policy as pt on ppr.policy_id = pt.id where status_code ='InProgress'")
+    ArrayList<Object[]> getApiRequestDetails();
+
+//    @Query(nativeQuery = true, value="  select pp.part_id, pp.policy_api_key,pp.policy_id,ml.license_key,ml.is_active from pms.partner_policy as pp\n" +
+//            "    inner join pms.misp_license ml on ml.misp_id=pp.part_id\n" +
+//            "    where ml.is_active ='true' and pp.is_active='true' order by ml.cr_dtimes desc")
+//    ArrayList<Object[]> getAPIMispDetails();
+
+    @Query(nativeQuery = true, value=" select pp.part_id, pp.policy_api_key,pp.policy_id,ml.license_key,ml.is_active from pms.partner_policy as pp\n" +
+            "inner join pms.partner pr on pr.id = pp.part_id\n" +
+            " inner join pms.misp_license ml on ml.misp_id=pp.part_id \n" +
+            " where ml.is_active =true and pp.is_active=true and pr.is_active=true order by ml.cr_dtimes desc")
+    ArrayList<Object[]> getAPIMispDetails();
+
+
+    @Query("select u from PartnerPolicy u where u.crtDtime>=:strtDate and u.crtDtime<=:endDate order by u.crtDtime desc")
+    List<PartnerPolicy> getOnboardedApi(LocalDateTime strtDate, LocalDateTime endDate);
+
+    @Query("select count(u) from PartnerPolicy u  where u.Active=true ")
+    BigInteger getDashboardAPIList();
+
+    @Query(value = "SELECT t  from PartnerPolicy t where t.Active=:status order by t.crtDtime desc")
+    List<PartnerPolicy> viewPartnerApi(boolean status);
+
+//    @Modifying
+//    @Query(value = "update  PartnerPolicy t set t.isDeleted=true,t.delDtime=CURRENT_TIMESTAMP  where t.partId=:partId and t.id=:apikey")
+//    int DeleteApiKey(String partId, String apikey);
+
+    @Modifying
+    @Query(value = "delete from  PartnerPolicy t   where t.partId=:partId and t.id=:apikey")
+    int DeleteApiKey(String partId, String apikey);
+
+    @Query(value="Select count(t) from PartnerPolicy t where t.policyId=:id ")
+    int checkPolicyId(String id);
+
+
+    @Query(nativeQuery = true, value=" select ap.name,pp.policy_api_key,to_char(pp.valid_from_datetime,'dd-mm-yyyy') as fromDate,to_char(pp.valid_to_datetime,'dd-mm-yyyy') as toDate,pp.policy_id,pp.is_active from pms.partner_policy pp\n" +
+            "inner join pms.auth_policy ap\n" +
+            "on pp.policy_id=ap.id\n" +
+            "where part_id=:partnerId and pp.is_deleted=false order by pp.valid_to_datetime asc")
+    ArrayList<Object[]> getPolicyList(String partnerId);
+}

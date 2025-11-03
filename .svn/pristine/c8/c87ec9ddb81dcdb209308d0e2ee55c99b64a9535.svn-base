@@ -1,0 +1,199 @@
+package com.msp.pms.msppmsmodel;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
+import java.text.Format;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "app_msppms_log" ,schema ="msppms")
+@Getter
+@Setter
+public class AuditLogs implements java.io.Serializable{
+    @Id
+    @Column(name = "log_id")
+    private String idLog;
+    @CreationTimestamp
+//    @CreationTimestamp(Format="dd/MM/yyyy")
+    @Column(name = "log_dtimes")
+    private LocalDateTime logDtimes;
+    @Column(name = "log_desc")
+    private String logDesc;
+    @Column(name = "event_id")
+    private String eventId;
+    @Column(name = "event_type")
+    private String eventType;
+    @Column(name = "event_name")
+    private String eventName;
+    @Column(name = "action_dtimes")
+    private LocalDateTime actionDtimes;
+    @Column(name = "host_name")
+    private String hostName;
+    @Column(name = "host_ip")
+    private String hostIp;
+    @Column(name = "session_user_id")
+    private String sessionUserId;
+    @Column(name = "session_user_name")
+    private String sessionUserName;
+    @Column(name = "app_id")
+    private String appId;
+    @Column(name = "app_name")
+    private String appName;
+    @Column(name = "module_id")
+    private String moduleId;
+    @Column(name = "module_name")
+    private String moduleName;
+    @Column(name = "ref_id")
+    private String refId;
+    @Column(name = "ref_id_type")
+    private String refIdType;
+    @Column(name = "cr_by")
+    private String crBy;
+
+    public String getIdLog() {
+        return idLog;
+    }
+
+    public void setIdLog(String idLog) {
+        this.idLog = idLog;
+    }
+
+    public LocalDateTime getLogDtimes() {
+        return logDtimes;
+    }
+
+    public void setLogDtimes(LocalDateTime logDtimes) {
+        this.logDtimes = logDtimes;
+    }
+
+    public String getLogDesc() {
+        return logDesc;
+    }
+
+    public void setLogDesc(String logDesc) {
+        this.logDesc = logDesc;
+    }
+
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    public String getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
+    public LocalDateTime getActionDtimes() {
+        return actionDtimes;
+    }
+
+    public void setActionDtimes(LocalDateTime actionDtimes) {
+        this.actionDtimes = actionDtimes;
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
+    }
+
+    public String getHostIp() {
+        return hostIp;
+    }
+
+    public void setHostIp(String hostIp) {
+        this.hostIp = hostIp;
+    }
+
+    public String getSessionUserId() {
+        return sessionUserId;
+    }
+
+    public void setSessionUserId(String sessionUserId) {
+        this.sessionUserId = sessionUserId;
+    }
+
+    public String getSessionUserName() {
+        return sessionUserName;
+    }
+
+    public void setSessionUserName(String sessionUserName) {
+        this.sessionUserName = sessionUserName;
+    }
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
+    }
+
+    public String getModuleId() {
+        return moduleId;
+    }
+
+    public void setModuleId(String moduleId) {
+        this.moduleId = moduleId;
+    }
+
+    public String getModuleName() {
+        return moduleName;
+    }
+
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
+
+    public String getRefId() {
+        return refId;
+    }
+
+    public void setRefId(String refId) {
+        this.refId = refId;
+    }
+
+    public String getRefIdType() {
+        return refIdType;
+    }
+
+    public void setRefIdType(String refIdType) {
+        this.refIdType = refIdType;
+    }
+
+    public String getCrBy() {
+        return crBy;
+    }
+
+    public void setCrBy(String crBy) {
+        this.crBy = crBy;
+    }
+}

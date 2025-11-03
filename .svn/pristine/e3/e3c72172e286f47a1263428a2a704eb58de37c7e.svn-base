@@ -1,0 +1,62 @@
+package com.msp.mosip_pms.repository;
+
+import com.msp.mosip_pms.model.PolicyGroup;
+import com.msp.mosip_pms.model.partner;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface PolicyGroupRepository extends CrudRepository<PolicyGroup, String>
+
+{
+    @Query(value = "select t from PolicyGroup t where t.active=true order by t.crDtimes desc ")
+    public List<PolicyGroup> getPolicyGroupName();
+
+    @Query(value = "select t from PolicyGroup t order by t.active, t.crDtimes desc ")
+    public List<PolicyGroup> getListPolicyGroupName();
+
+    @Query(value = "select t from PolicyGroup t where t.crBy=:userId order by t.active, t.crDtimes desc ")
+    public List<PolicyGroup> getListPolicyGroupName(String userId);
+
+
+    @Query(value = "SELECT u FROM PolicyGroup u order by u.crDtimes desc ")
+    public List<PolicyGroup> viewPolicyDetail();
+
+    @Query(value = "SELECT t  from PolicyGroup t  where t.id=:policyid")
+    List<PolicyGroup> getPolicygroupDetail(String policyid);
+
+    @Query(value = "select t.id from PolicyGroup t where t.name=:policyGroupName and t.active=true  ")
+    public  String getPolicyGroupId(String policyGroupName);
+
+    @Query(value = "select t.name from PolicyGroup t where t.id=:policyGroupId and t.active=true  ")
+    public  String getPolicyGroupName(String policyGroupId);
+
+    @Query(value = "SELECT t  from PolicyGroup t  where t.id=:pgId")
+    PolicyGroup editPolicygroupId(String pgId);
+
+    @Query(value = "SELECT count(t)  from PolicyGroup t  where t.name=:name and t.descr=:descr and t.active=:status")
+    int getPolicyGroupDetails(String name, String descr, boolean status);
+
+  PolicyGroup findAllById(String id);
+    @Modifying(flushAutomatically = true)
+    @Query(value = "delete from PolicyGroup u where u.id=:id ")
+  void deleteById(String id);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update PolicyGroup u set u.crBy=:userId  where u.id=:id ")
+    void changeUserId(String userId, String id);
+
+    @Query(value = "SELECT count(t)  from PolicyGroup t where t.crBy=:userId")
+    int getCount(String userId);
+    @Query(value = "SELECT count(t)  from PolicyGroup t ")
+    int getCount();
+
+//@Modifying
+//@Query(value = "update PolicyGroup u set u.crBy=:userId  where u.id=:id")
+//    void updateCrBy(String id, String userId);
+}
+

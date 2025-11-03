@@ -1,0 +1,26 @@
+//live
+db.driver: org.postgresql.Driver
+db.url: jdbc:postgresql://34.80.85.203:5432/mosip_pms
+db.username: postgres
+db.password: YjMfqtaMss
+
+
+//local
+db2.driver: org.postgresql.Driver
+db2.url: jdbc:postgresql://34.80.85.203:5432/pms
+db2.username: postgres
+db2.password: YjMfqtaMss
+
+//local
+db3.driver: org.postgresql.Driver
+db3.url: jdbc:postgresql://34.80.85.203:5432/mosip_keymgr
+db3.username: postgres
+db3.password: YjMfqtaMss
+
+//local
+db4.driver: org.postgresql.Driver
+db4.url: jdbc:postgresql://34.80.85.203:5432/mosip_ida
+db4.username: postgres
+db4.password: YjMfqtaMss
+
+seckey: eagle@123

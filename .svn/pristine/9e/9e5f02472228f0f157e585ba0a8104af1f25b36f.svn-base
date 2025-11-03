@@ -1,0 +1,180 @@
+package com.msp.service.msp_pms;
+
+import com.msp.pms.msppmsmodel.MSPDeviceModelRegistration;
+import com.msp.pms.msppmsmodel.MSPPartnerRegistration;
+import com.msp.pms.msppmsrepository.MSPDeviceModelRegistrationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@Qualifier("mspPmsTransactionManager")
+@Transactional("mspPmsTransactionManager")
+public class DeviceModelRegistrationMSPService {
+
+
+//    @Qualifier("mspPmsTransactionManager")
+//    @Autowired
+//    private EntityManager em;
+
+    @Autowired
+    private MSPDeviceModelRegistrationRepository mspDeviceRegistrationRepository;
+
+    public String maxUserid() {
+
+        return mspDeviceRegistrationRepository.maxPartnerId();
+    }
+//    public boolean save(MSPDeviceModelRegistration reg){
+//        return false;
+//    }
+    public void save(MSPDeviceModelRegistration reg){
+        mspDeviceRegistrationRepository.save(reg);
+    }
+//    public boolean save(MSPDeviceModelRegistration reg) {
+//        boolean out = true;
+//        try {
+//            em.persist(reg);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            out = false;
+//        }
+//        return out;
+//
+//    }
+
+    public List<MSPDeviceModelRegistration> viewDeviceReg(String val, String perform){
+        return mspDeviceRegistrationRepository.viewDeviceReg(val, perform);
+    }
+    public List<MSPDeviceModelRegistration> getdeviceregmodel(){
+        return mspDeviceRegistrationRepository.getdeviceregmodel();
+    }
+
+    public ArrayList<MSPDeviceModelRegistration> findAlldevice() {
+        ArrayList<MSPDeviceModelRegistration> type = (ArrayList<MSPDeviceModelRegistration>) mspDeviceRegistrationRepository.findAllpartners();
+        return type;
+    }
+
+    public int deviceCertificateAlias(String partnerId, String certificateId ) {
+        return mspDeviceRegistrationRepository.certificateAlias(partnerId,certificateId );
+    }
+
+    public void suspendedDevice(String actionPerformed, String partnerId, String suspenId) {
+        mspDeviceRegistrationRepository.suspendedDevice(actionPerformed,partnerId,suspenId);
+    }
+
+    public void backlistDevice(String actionPerformed, String partnerId, String suspenId) {
+        mspDeviceRegistrationRepository.backlistDevice(actionPerformed,partnerId,suspenId);
+    }
+
+    public void revokeDevice(String actionPerformed, String partnerId, String suspenId) {
+        mspDeviceRegistrationRepository.revokeDevice(actionPerformed,partnerId,suspenId);
+    }
+
+    public int FTMCertificateAlias(String partnerId, String certificateId, String partnerDomain) {
+        return mspDeviceRegistrationRepository.ftmCertificateAlias(partnerId,certificateId ,partnerDomain);
+    }
+//    public int deviceCertificateAliasdel(String partnerId, String certificateId ) {
+//        return mspDeviceRegistrationRepository.deviceCertificateAliasdel(partnerId,certificateId );
+//    }
+//    public int FTMCertificateAliasdel(String partnerId, String certificateId, String partnerDomain) {
+//        return mspDeviceRegistrationRepository.ftmCertificateAliasdel(partnerId,certificateId ,partnerDomain);
+//    }
+    public String getPartnerDetails(String partnerId) {
+        return mspDeviceRegistrationRepository.getPartnerDetails(partnerId);
+    }
+
+
+    public List<MSPDeviceModelRegistration> noOnboardedDevice(String status, LocalDateTime strtDate, LocalDateTime endDate) {
+        return mspDeviceRegistrationRepository.noOnboardedDevice(status,strtDate,endDate);
+    }
+
+    public List<Object[]> dashboardDevicSusBackRevoke() {
+        return mspDeviceRegistrationRepository.dashboardDevicSusBackRevoke();
+    }
+
+    public MSPDeviceModelRegistration getIdDetail(String partnerId) {
+        return mspDeviceRegistrationRepository.getDetailId(partnerId);
+    }
+
+    public List<MSPDeviceModelRegistration> notificationList() {
+        return mspDeviceRegistrationRepository.notificationList();
+    }
+
+    public void changeNotificationList(String device) {
+        mspDeviceRegistrationRepository.changeNotificationList(device);
+    }
+
+    public int certificateAliasdel(String partnerId) {
+        return mspDeviceRegistrationRepository.certificateAliasdel(partnerId);
+    }
+
+    public int UpdateStatus(String Id ,boolean status) {
+        return mspDeviceRegistrationRepository.UpdateStatus(Id ,status);
+    }
+    public List<Object[]> suspendedDeviceList(String mode) {
+        return mspDeviceRegistrationRepository.suspendedDeviceList(mode);
+    }
+    public List<Object[]> backlistDeviceList(String mode) {
+        return mspDeviceRegistrationRepository.backlistDeviceList(mode);
+    }
+    public List<Object[]> revokeDeviceList(String mode) {
+        return mspDeviceRegistrationRepository.revokeDeviceList(mode);
+    }
+
+
+    public int getPMSOrganizationEmailId(String partnerType,String emailId, String organizationName) {
+        return mspDeviceRegistrationRepository.getPMSOrganizationEmailId( partnerType,emailId,organizationName);
+    }
+    public void deleteById(String partnerId) {
+        mspDeviceRegistrationRepository.deleteById(partnerId);
+    }
+    public String getPmsPartnerId(String partnerType, String emailId, String organizationName) {
+        return mspDeviceRegistrationRepository.getPmsPartnerId( partnerType,emailId,organizationName);
+    }
+
+    public int update(String partnerId,String contact){
+//        partnerRegistrationRepository.deleteById(partnerId);
+        return mspDeviceRegistrationRepository.update(partnerId,contact);
+    }
+
+    public Long flagCount() {
+        return mspDeviceRegistrationRepository.flagCount();
+    }
+
+    public boolean updateMSPPartnerRegistration(MSPDeviceModelRegistration mspDevice, String deviceId) {
+            boolean out = true;
+            try {
+                MSPDeviceModelRegistration s=mspDeviceRegistrationRepository.findAllById(deviceId);
+                s.setDeviceStatus(mspDevice.getDeviceStatus());
+              s.setAddress(mspDevice.getAddress());
+              s.setMobilenumber(mspDevice.getMobilenumber());
+              s.setDeviceModel(mspDevice.getDeviceModel());
+              s.setDeviceType(mspDevice.getDeviceType());
+              s.setBrandName(mspDevice.getBrandName());
+                mspDeviceRegistrationRepository.save(s);
+
+                out = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                out = false;
+            }
+
+            return out;
+
+    }
+
+    public List<String> getDeviceTypeId(String iris) {
+       return mspDeviceRegistrationRepository.getDeviceTypeId(iris);
+    }
+
+
+    public int getOnlyDeviceCount(List<String> deviceCount) {
+        return mspDeviceRegistrationRepository.getOnlyDeviceCount(deviceCount);
+    }
+}

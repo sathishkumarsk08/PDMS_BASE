@@ -1,0 +1,113 @@
+package com.msp.service.msp_pms;
+
+import com.msp.mosip_pms.model.PolicyType;
+import com.msp.pms.msppmsmodel.MSPPolicyType;
+import com.msp.pms.msppmsrepository.MSPPolicyTypeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@Qualifier("mspPmsTransactionManager")
+@Transactional("mspPmsTransactionManager")
+public class MSPPolicyTypeService {
+    @Autowired
+    private MSPPolicyTypeRepository mspPolicyTypeRepository;
+
+    public void save(MSPPolicyType policy){
+        mspPolicyTypeRepository.save(policy);
+    }
+    public List<MSPPolicyType> viewPolicyType(){
+        return mspPolicyTypeRepository.viewPolicyType();
+    }
+
+    public ArrayList<Object[]> getPolicyGroupType(boolean status) {
+        return mspPolicyTypeRepository.getPolicyGroupType(status);
+    }
+
+
+    public int activatePolicy(boolean val, String policyId, String policyGroupId) {
+        return mspPolicyTypeRepository.activatePolicy(val,policyId,policyGroupId);
+    }
+    public int rejectPolicy(String policyId, String policyGroupId) {
+        return mspPolicyTypeRepository.rejectPolicy(policyId,policyGroupId);
+    }
+
+    public List<Object[]> generateapikey() {
+        return mspPolicyTypeRepository.generateapikey();
+    }
+
+    public List<MSPPolicyType> notificationList() {
+        return mspPolicyTypeRepository.notificationList();
+    }
+
+    public void changeNotificationList( String api) {
+        mspPolicyTypeRepository.changeNotificationList(api);
+    }
+
+    public List<MSPPolicyType> getPolicytypeDetail(String policytypeid) {
+        return mspPolicyTypeRepository.getPolicytypeDetail(policytypeid);
+    }
+
+    public Long flagCount() {
+        return mspPolicyTypeRepository.flagCount();
+    }
+
+    public boolean updateMSPPolicyType(MSPPolicyType mspPolicy, String id) {
+        boolean out = true;
+        try {
+            MSPPolicyType s=mspPolicyTypeRepository.findAllByPolicyTypeId(id);
+            s.setPolicyGroupId( mspPolicy.getPolicyGroupId());
+            s.setPolicyType( mspPolicy.getPolicyType());
+            s.setPolicyTypeName( mspPolicy.getPolicyTypeName());
+            s.setActive(false);
+            s.setFileId(mspPolicy.getFileId());
+            s.setRejectApprovalStatus(1);
+            s.setFlag(0);
+            mspPolicyTypeRepository.save(s);
+            out = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            out = false;
+        }
+
+        return out;
+    }
+
+    public void deleteById(String xyz) {mspPolicyTypeRepository.deleteByPolicyTypeId(xyz);
+    }
+
+    public void changeId(String id, String xyz) {
+        mspPolicyTypeRepository.changeId(id,xyz);
+    }
+
+    public List<String> getRejectedPolicies() {
+       return mspPolicyTypeRepository.getRejectedPolicies();
+    }
+    public List<String> getRejectedPolicies(String userId) {
+       return mspPolicyTypeRepository.getRejectedPolicies(userId);
+    }
+
+    public List<String> getApprovedPolicies() {
+        return mspPolicyTypeRepository.getApprovedPolicies();
+    }
+    public List<String> getApprovedPolicies(String userId) {
+        return mspPolicyTypeRepository.getApprovedPolicies(userId);
+    }
+
+    public List<String> getWaitingPolicies() {
+        return mspPolicyTypeRepository.getWaitingPolicies();
+    }
+    public List<String> getWaitingPolicies(String userId) {
+        return mspPolicyTypeRepository.getWaitingPolicies(userId);
+    }
+
+    public void changeUserId(String userId, String id) {
+        mspPolicyTypeRepository.changeUserId(userId,id);
+    }
+}
+

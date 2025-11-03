@@ -1,0 +1,69 @@
+package com.msp.service.msp_pms;
+
+//import com.msp.pms.msppmsmodel.PolicyGroupPms;
+
+import com.msp.common.APIConnection;
+import com.msp.mosip_pms.model.partner;
+import com.msp.pms.msppmsmodel.PolicyGroupPms;
+import com.msp.pms.msppmsrepository.MSPPolicyGroupRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@Qualifier("mspPmsTransactionManager")
+@Transactional("mspPmsTransactionManager")
+public class MSPPolicyGroupService {
+
+        @Autowired
+        private MSPPolicyGroupRepository mspPolicyGroupRepository;
+
+
+    public void save(PolicyGroupPms policy){
+        mspPolicyGroupRepository.save(policy);
+    }
+
+    public String getPolicyGroupId(String policyGroupName) {
+        return mspPolicyGroupRepository.getPolicyGroupId(policyGroupName);
+    }
+    public List<PolicyGroupPms> viewPolicyDetail(){
+
+        return mspPolicyGroupRepository.viewPolicyDetail();
+    }
+    public List<PolicyGroupPms> getPolicyGroupName(){
+    return mspPolicyGroupRepository.getPolicyGroupName();
+}
+
+    public List<PolicyGroupPms> getPolicygroupDetail(String policyid) {
+        return mspPolicyGroupRepository.getPolicygroupDetail(policyid);
+    }
+    public boolean updateMSPPolicyGroup(PolicyGroupPms user, String id) {
+        boolean out = true;
+        try {
+            PolicyGroupPms s=mspPolicyGroupRepository.findAllById(id);
+            s.setName(user.getName());
+            s.setDescr(user.getDescr());
+            s.setStatus(user.getStatus());
+            s.setUpdBy(user.getUpdBy());
+            s.setUpdDtimes(APIConnection.getUTCCurrentDateTime());
+            mspPolicyGroupRepository.save(s);
+
+            out = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            out = false;
+        }
+
+        return out;
+    }
+    public void deleteById(String partnerId) {
+        mspPolicyGroupRepository.deleteById(partnerId);
+    }
+
+    public void changeId(String id, String xyz) {
+        mspPolicyGroupRepository.changeId(id,xyz);
+    }
+}

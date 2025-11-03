@@ -1,0 +1,201 @@
+package com.msp.pms.msppmsmodel;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+@Entity
+@Table(name = "policy_type" ,schema ="msppms")
+public class MSPPolicyType implements java.io.Serializable{
+
+        private boolean isDeleted;
+        private LocalDateTime delDateTime;
+        private String policyGroupId;
+        private String policyTypeId;
+        private String policyTypeName;
+        private String policyTypeDescription;
+        private String fileId;
+        private String policyType;
+        private String policySchema;
+        private LocalDateTime validtodate;
+        private boolean isActive;
+        private Integer updatedBy;
+        private LocalDateTime upDtTime;
+        private Integer createdBy;
+        private  LocalDateTime crDtTime;
+        private Integer sno;
+        private int flag;
+        private int rejectApprovalStatus;
+
+    @Column(name = "rej_app_status")
+    public int getRejectApprovalStatus() {
+        return rejectApprovalStatus;
+    }
+
+    public void setRejectApprovalStatus(int rejectApprovalStatus) {
+        this.rejectApprovalStatus = rejectApprovalStatus;
+    }
+
+    @Column(name = "notifi_flag")
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
+    }
+    //        private PolicyGroupPms policyGroup;
+
+    @Column(name = "policy_group_id")
+    public String getPolicyGroupId() {
+        return policyGroupId;
+    }
+
+    public void setPolicyGroupId(String policyGroupId) {
+        this.policyGroupId = policyGroupId;
+    }
+
+
+//    @ManyToOne
+//    @JoinColumn(name = "policy_group_id", nullable = false)
+//    public PolicyGroupPms getPolicyGroup() {
+//        return policyGroup;
+//    }
+//
+//    public void setPolicyGroup(PolicyGroupPms policyGroup) {
+//        this.policyGroup = policyGroup;
+//    }
+
+
+
+        @Column(name = "is_deleted")
+        public boolean isDeleted() {
+            return isDeleted;
+        }
+
+        public void setDeleted(boolean deleted) {
+            isDeleted = deleted;
+        }
+        @Column(name = "policy_type_del_dtimes")
+        public LocalDateTime getDelDateTime() {
+            return delDateTime;
+        }
+
+        public void setDelDateTime(LocalDateTime delDateTime) {
+            this.delDateTime = delDateTime;
+        }
+//        @Column(name = "policy_group_id")
+////        @Column(nullable=false)
+//        public String getPolicyGroupId() {
+//            return policyGroupId;
+//        }
+//
+//        public void setPolicyGroupId(String policyGroupId) {
+//            this.policyGroupId = policyGroupId;
+//        }
+        @Column(name = "policy_type_id")
+        public String getPolicyTypeId() {
+            return policyTypeId;
+        }
+
+        public void setPolicyTypeId(String policyTypeId) {
+            this.policyTypeId = policyTypeId;
+        }
+        @Column(name = "policy_type_name")
+        public String getPolicyTypeName() {
+            return policyTypeName;
+        }
+
+        public void setPolicyTypeName(String policyTypeName) {
+            this.policyTypeName = policyTypeName;
+        }
+        @Column(name = "policy_type_name_description")
+        public String getPolicyTypeDescription() {
+            return policyTypeDescription;
+        }
+
+        public void setPolicyTypeDescription(String policyTypeDescription) {
+            this.policyTypeDescription = policyTypeDescription;
+        }
+        @Column(name = "policy_file_id")
+        public String getFileId() {
+            return fileId;
+        }
+
+        public void setFileId(String fileId) {
+            this.fileId = fileId;
+        }
+        @Column(name = "policy_type")
+        public String getPolicyType() {
+            return policyType;
+        }
+
+        public void setPolicyType(String policyType) {
+            this.policyType = policyType;
+        }
+        @Column(name = "policy_schema")
+        public String getPolicySchema() {
+            return policySchema;
+        }
+
+        public void setPolicySchema(String policySchema) {
+            this.policySchema = policySchema;
+        }
+        @Column(name = "valid_todate")
+        public LocalDateTime getValidtodate() {
+            return validtodate;
+        }
+
+        public void setValidtodate(LocalDateTime validtodate) {
+            this.validtodate = validtodate;
+        }
+        @Column(name = "is_active")
+        public boolean isActive() {
+            return isActive;
+        }
+
+        public void setActive(boolean active) {
+            isActive = active;
+        }
+        @Column(name = "policy_type_upd_by")
+        public Integer getUpdatedBy() {
+            return updatedBy;
+        }
+
+        public void setUpdatedBy(Integer updatedBy) {
+            this.updatedBy = updatedBy;
+        }
+        @Column(name = "policy_type_updtimes")
+        public LocalDateTime getUpDtTime() {
+            return upDtTime;
+        }
+
+        public void setUpDtTime(LocalDateTime upDtTime) {
+            this.upDtTime = upDtTime;
+        }
+        @Column(name = "policy_type_created_by")
+        public Integer getCreatedBy() {
+            return createdBy;
+        }
+
+        public void setCreatedBy(Integer createdBy) {
+            this.createdBy = createdBy;
+        }
+        @Column(name = "policy_type_crdtimes")
+        public LocalDateTime getCrDtTime() {
+            return crDtTime;
+        }
+
+        public void setCrDtTime(LocalDateTime crDtTime) {
+            this.crDtTime = crDtTime;
+        }
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name = "policy_type_sno")
+        public Integer getSno() {
+            return sno;
+        }
+
+        public void setSno(Integer sno) {
+            this.sno = sno;
+        }
+    }

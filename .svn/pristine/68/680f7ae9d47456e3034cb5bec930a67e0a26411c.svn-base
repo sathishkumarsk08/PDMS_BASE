@@ -1,0 +1,264 @@
+package com.msp.pms.msppmsmodel;
+
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "device_registration" ,schema ="msppms")
+@Getter
+@Setter
+public class DeviceRegistrationPms implements java.io.Serializable{
+    @javax.persistence.Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "device_reg_sno")
+    private Integer sno;
+    @Column(name = "device_id", unique = true, nullable = false)
+    private String id;
+    @Column(name = "device_name")
+    private String name;
+    @Column(name = "device_type")
+    private String type;
+    @Column(name = "device_location")
+    private String location;
+    @Column(name = "device_serial_number")
+    private String serialNumber;
+    @Column(name = "device_model")
+    private String model;
+    @Column(name = "device_validity")
+    private LocalDateTime validity;
+    @Column(name = "device_created_by")
+    private Integer createdBy;
+    @Column(name = "device_crdtimes")
+    private LocalDateTime crDtTime;
+    @Column(name = "user_id")
+    private Integer userId;
+    @Column(name = "device_updated_by")
+    private Integer updBy;
+    @Column(name = "device_updtimes")
+    private LocalDateTime upDtTime;
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+    @Column(name = "device_del_dtimes")
+    private LocalDateTime delDateTime;
+    @Column(name = "device_suspended")
+    private Integer suspended;
+    @Column(name = "device_blacklisted")
+    private Integer blacklisted;
+    @Column(name = "device_revoked")
+    private Integer revoked;
+    @Column(name = "device_certificate")
+    private String certificate;
+    @Column(name = "device_supporting_certificate")
+    private String supportingCertificate;
+    @Column(name = "email")
+    private String email;
+    @Column(name = "mobile_number")
+    private String mobile;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public DeviceRegistrationPms(Integer sno, String id, String name, String type, String location, String serialNumber, String model, LocalDateTime validity, Integer createdBy, LocalDateTime crDtTime, Integer userId, Integer updBy, LocalDateTime upDtTime, boolean isDeleted, LocalDateTime delDateTime, Integer suspended, Integer blacklisted,
+                                 Integer revoked, String certificate, String supportingCertificate) {
+        this.sno = sno;
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.location = location;
+        this.serialNumber = serialNumber;
+        this.model = model;
+        this.validity = validity;
+        this.createdBy = createdBy;
+        this.crDtTime = crDtTime;
+        this.userId = userId;
+        this.updBy = updBy;
+        this.upDtTime = upDtTime;
+        this.isDeleted = isDeleted;
+        this.delDateTime = delDateTime;
+        this.suspended = suspended;
+        this.blacklisted = blacklisted;
+        this.revoked = revoked;
+        this.certificate = certificate;
+        this.supportingCertificate = supportingCertificate;
+    }
+
+    public DeviceRegistrationPms() {
+
+    }
+
+    public Integer getSno() {
+        return sno;
+    }
+
+    public void setSno(Integer sno) {
+        this.sno = sno;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public LocalDateTime getValidity() {
+        return validity;
+    }
+
+    public void setValidity(LocalDateTime validity) {
+        this.validity = validity;
+    }
+
+    public Integer getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Integer createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getCrDtTime() {
+        return crDtTime;
+    }
+
+    public void setCrDtTime(LocalDateTime crDtTime) {
+        this.crDtTime = crDtTime;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getUpdBy() {
+        return updBy;
+    }
+
+    public void setUpdBy(Integer updBy) {
+        this.updBy = updBy;
+    }
+
+    public LocalDateTime getUpDtTime() {
+        return upDtTime;
+    }
+
+    public void setUpDtTime(LocalDateTime upDtTime) {
+        this.upDtTime = upDtTime;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public LocalDateTime getDelDateTime() {
+        return delDateTime;
+    }
+
+    public void setDelDateTime(LocalDateTime delDateTime) {
+        this.delDateTime = delDateTime;
+    }
+
+    public Integer getSuspended() {
+        return suspended;
+    }
+
+    public void setSuspended(Integer suspended) {
+        this.suspended = suspended;
+    }
+
+    public Integer getBlacklisted() {
+        return blacklisted;
+    }
+
+    public void setBlacklisted(Integer blacklisted) {
+        this.blacklisted = blacklisted;
+    }
+
+    public Integer getRevoked() {
+        return revoked;
+    }
+
+    public void setRevoked(Integer revoked) {
+        this.revoked = revoked;
+    }
+
+    public String getCertificate() {
+        return certificate;
+    }
+
+    public void setCertificate(String certificate) {
+        this.certificate = certificate;
+    }
+
+    public String getSupportingCertificate() {
+        return supportingCertificate;
+    }
+
+    public void setSupportingCertificate(String supportingCertificate) {
+        this.supportingCertificate = supportingCertificate;
+    }
+}

@@ -1,0 +1,275 @@
+package com.msp.service;
+
+//import com.eagle.mas.model.MasterOutlet;
+
+import com.msp.common.MacAddress;
+import com.msp.mosip_pms.model.PolicyGroup;
+import com.msp.pms.msppmsmodel.Userdetails;
+import com.msp.pms.msppmsrepository.UserdetailsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+
+@Transactional("mspPmsTransactionManager")
+@Service
+
+public class UserdetailsService   {
+
+//	@Qualifier("mspPmsTransactionManager")
+	@Autowired
+	@Qualifier("user")
+	UserdetailsRepository userrepository;
+
+
+	public List findAllUsersForapproval(){
+		List list= userrepository.findAllUsersForapproval();
+		return list;
+	}
+
+//	@Override
+//	public <S extends Userdetails> S save(S entity) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public <S extends Userdetails> Iterable<S> saveAll(Iterable<S> entities) {
+//		return null;
+//	}
+//
+//	@Override
+//	public Optional<Userdetails> findById(String s) {
+//		return Optional.empty();
+//	}
+//
+//	@Override
+//	public boolean existsById(String s) {
+//		return false;
+//	}
+//
+//	@Override
+//	public Iterable<Userdetails> findAll() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public Iterable<Userdetails> findAllById(Iterable<String> strings) {
+//		return null;
+//	}
+
+//	@Override
+//	public long count() {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
+//
+//	@Override
+//	public void deleteById(String s) {
+//
+//	}
+//
+//	@Override
+//	public void delete(Userdetails entity) {
+//		// TODO Auto-generated method stub
+//
+//	}
+
+//	@Override
+//	public void deleteAll(Iterable<? extends Userdetails> entities) {
+//
+//	}
+//
+//	@Override
+//	public void deleteAll() {
+//		// TODO Auto-generated method stub
+//
+//	}
+
+
+	public int maxUserid() {
+
+		return userrepository.maxUserid();
+	}
+
+//	@Override
+//	public List<Userdetails> findbyGroupName(String groupName) {
+//		// TODO Auto-generated method stub
+//		return userrepository.findbyGroupName(groupName);
+//	}
+//
+//
+//	public Userdetails findbyUserId(String userId) {
+//		// TODO Auto-generated method stub
+//		return userrepository.findbyUserId(userId);
+//	}
+	
+//	public String findByphone(String contactnumber) {
+//		return userrepository.findByphone(contactnumber);
+//	}
+
+//	public String findByphoneByuserid(String contactnumber, String userid) {
+//		return userrepository.findByphoneByuserid(contactnumber, userid);
+//	}
+
+
+	public Userdetails findbyOldPwd(String oldPwd,String emailID) {
+		return userrepository.findbyOldPwd(oldPwd,emailID);
+	}
+
+
+	public int updatePasswordDetails(String enpassword, String password, String userId) {
+		return userrepository.updatePasswordDetails(enpassword, password, userId);
+	}
+
+
+	public Userdetails getuserBymail(String userEmail) {
+		return userrepository.getuserBymail(userEmail);
+	}
+
+
+	public int changepwdmail(String password, String encpassword, String userEmail) {
+		return userrepository.changepwdmail(password,encpassword,userEmail);
+	}
+
+
+	public List<Userdetails> findAllRegisteredUsers() {
+		return userrepository.findAllRegisteredUsers();
+	}
+
+
+	public int approveUser(String userid) {
+		return userrepository.approveUser(userid);
+	}
+
+	public int declineUser(String userid) {
+		return userrepository.declineUser(userid);
+	}
+
+//	@Override
+//	public  List <Userdetails> getReleasersForOutlet(String outlet) {
+//		return userrepository.getReleasersForOutlet(outlet);
+//	}
+//
+////    @Override
+////    public  List <MasterOutlet> getMasterOutlet() {
+////        return userrepository.getMasterOutlet();
+////    }
+//
+//	@Override
+//	public  List <Userdetails> getReleasersAndSupForOutlet(String outlet) {
+//		return userrepository.getReleasersAndSupForOutlet(outlet);
+//	}
+//
+//	@Override
+//	public List<Userdetails> findAllRegisteredReleasersForSup(String outlet) {
+//		return userrepository.findAllRegisteredReleasersForSup(outlet);
+//	}
+
+	public List <Userdetails> findReleaserDetail(String userId) {
+		return userrepository.findReleaserDetail(userId);
+	}
+
+
+	public Userdetails getUserDetailsByUserid(String userid){
+//		Userdetails user =  ;
+		return userrepository.getUserDetailsByUserid(userid);
+	}
+
+
+	public List<Userdetails> viewUserDetail() {
+		List<Userdetails> user =  userrepository.viewUserDetail();
+		return user;
+	}
+
+	public Userdetails getAllPersons(String uname, String pwd) {
+		Userdetails userList= userrepository.getAllPersons(uname ,pwd);
+		return userList;
+	}
+
+	public Userdetails getUserLoginDetail(String uname, String pwd) {
+		Userdetails userList= userrepository.getUserLoginDetail(uname ,pwd);
+		return userList;
+	}
+
+	public int getUserDetails(String email, String password,String userId) {
+		return userrepository.getUserDetails(email, password, userId);
+//		return userrepository.findAllByVerifycodePwdAndEmailAndNotInUserid(email, password, userId);
+	}
+
+	public boolean updateUserCreation(Userdetails user, String userid) {
+			boolean out = true;
+			try {
+				System.out.println();
+				Userdetails s=userrepository.findByUserid(userid);
+				s.setUserName(user.getUserName());
+				s.setFirstnameEn(user.getFirstnameEn());
+				s.setEmail(user.getEmail());
+				s.setLastnameEn(user.getLastnameEn());
+				s.setMiddleName(user.getMiddleName());
+				s.setMobileNumber(user.getMobileNumber());
+				s.setUserRole(user.getUserRole());
+				s.setDesignation(user.getDesignation());
+				s.setVerifycodePwd(user.getVerifycodePwd());
+				s.setPassword(user.getPassword());
+				s.setPcnnumber(user.getPcnnumber());
+				String strOrg = user.getOrgfile();
+				String strPcn = user.getPcnfile();
+				if (strOrg != null && !strOrg.isEmpty()) {
+					s.setOrgfile(strOrg);
+				} else{
+					s.setOrgfile(s.getOrgfile());
+				}
+				if (strPcn != null && !strPcn.isEmpty()) {
+					s.setPcnfile(strPcn);
+				}else{
+					s.setOrgfile(s.getOrgfile());
+				}
+				userrepository.save(s);
+
+				out = true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				out = false;
+			}
+
+			return out;
+		}
+
+	public Userdetails getuserByuser( String userName, String email) {
+		return userrepository.getuserByuser(userName,email);
+	}
+
+
+    public int deleteById(String id) {
+	return	userrepository.deleteByUserid(id);
+    }
+}
+
+
+
+//	@Override
+//	public Userdetails getUserDetailSer() {
+//		return null;
+//	}
+
+//	@Override
+//	public Userdetails getuserBymailandPwd(String uname, String pwd) {
+//		return userrepository.getuserBymailandPwd(uname,pwd);
+//	}
+
+//	@Override
+//	public int updatePasswordDetailsByMail(String enpassword, String password, String userEmail) {
+//		return userrepository.updatePasswordDetailsByMail(enpassword,  password,  userEmail);
+//	}
+//
+//	@Override
+//	public int updatePasswordDetailsByOldPwd(String enpassword, String password, String oldpwd) {
+//		return userrepository.updatePasswordDetailsByOldPwd(enpassword,password,oldpwd);
+//	}
+
+

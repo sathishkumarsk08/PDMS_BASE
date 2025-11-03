@@ -1,0 +1,21 @@
+package com.msp.pms.msppmsrepository;
+
+import com.msp.pms.msppmsmodel.DeviceBlacklisted;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+
+@Component
+@Repository
+public interface MSPDeviceBlacklistedRepository extends CrudRepository<DeviceBlacklisted, Integer> {
+
+    @Query(nativeQuery = true, value = "select bl_id from msppms.device_blacklisted order by bl_crdtimes desc limit 1 ")
+    public String maxPartnerId();
+
+    @Query(nativeQuery = true,value = "select * from msppms.device_blacklisted d where d.end_date_bl between cast(:yesterday as timestamp) and cast(:today as timestamp)")
+    ArrayList<DeviceBlacklisted> getExpiredDeviceBlackListed(LocalDate yesterday, LocalDate today);
+}

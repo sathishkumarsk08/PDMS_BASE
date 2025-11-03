@@ -1,0 +1,20 @@
+package com.msp.pms.msppmsrepository;
+
+import com.msp.pms.msppmsmodel.partnerblacklisted;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+@Repository
+public interface MSPBacklistRepository extends CrudRepository<partnerblacklisted, Integer> {
+
+    @Query("select u from partnerblacklisted u where u.enddate >=:fromDate and u.enddate <=:toDate ")
+    ArrayList<partnerblacklisted> getExpiredBlackListed(LocalDateTime fromDate, LocalDateTime toDate);
+
+    @Query(nativeQuery = true, value = "select bl_id from msppms.partner_blacklisted order by bl_crdtimes desc limit 1 ")
+    public String maxPartnerId();
+
+}

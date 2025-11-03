@@ -1,0 +1,39 @@
+package com.msp.service;
+
+import com.msp.keymanager.moispkeymanagermodel.KeyManagerPartnerCertStore;
+import com.msp.keymanager.moispkeymangrepository.KeyMgrPartCertStoreRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@Qualifier("moispkeymangTransactionManager")
+@Transactional("moispkeymangTransactionManager")
+public class KeyMgrPartCertStoreService {
+    @Autowired
+    KeyMgrPartCertStoreRepo keyMgrPartCertStoreRepo;
+
+    public KeyManagerPartnerCertStore certdel(String organisation) {
+        return   keyMgrPartCertStoreRepo.certdel(organisation);
+    }
+    public KeyManagerPartnerCertStore getCertAliasRecord(String aliasRecord) {
+        return   keyMgrPartCertStoreRepo.getCertIdDetails(aliasRecord);
+    }
+    public List<KeyManagerPartnerCertStore> certdeletion(String org, String type) {
+        return   keyMgrPartCertStoreRepo.certdeletion(org,type);
+    }
+    public void Delete(String val) {
+        keyMgrPartCertStoreRepo.deleteById(val);
+    }
+
+    public int deletePartnerCert(String thumbPrint, String organizationName) {
+        return   keyMgrPartCertStoreRepo.deletePartnerCert(thumbPrint,"%O="+organizationName+",%");
+    }
+
+    public int deletePartnerCertificate(String certId) {
+      return   keyMgrPartCertStoreRepo.deletePartnerCertificate(certId);
+    }
+}

@@ -1,0 +1,147 @@
+package com.msp.pms.msppmsrepository;
+
+//import com.eagle.mas.model.MasterOutlet;
+
+
+import com.msp.pms.msppmsmodel.Userdetails;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
+
+@Repository("user")
+public interface UserdetailsRepository extends CrudRepository<Userdetails, String> {
+
+	@Query(value = "SELECT t1 from Userdetails t1 where t1.activestatus='0'")
+	public List findAllUsersForapproval();
+
+	@Query(value = "SELECT MAX(sno)+1 from Userdetails")
+	public int maxUserid();
+	
+	@Query(value = "SELECT u FROM Userdetails u  where u.belongsTo=:groupName")
+	public List <Userdetails> findbyGroupName(@Param("groupName") String groupName);
+	
+	@Query(value = "SELECT u FROM Userdetails u  where u.userid=:userId")
+	public Userdetails findbyUserId(@Param("userId") String userId);
+	
+//	@Query(value = "SELECT u.contactnumber FROM Userdetails u where u.contactnumber=:phone")
+//	public String findByphone(@Param("phone") String contactnumber);
+	
+//	@Query(value = "SELECT u.contactnumber FROM Userdetails u where u.contactnumber=:phone and u.userid!=:userid")
+//	public String findByphoneByuserid(@Param("phone") String contactnumber, @Param("userid") String userid);
+	
+	@Query(value = "SELECT u FROM Userdetails u where u.verifycodePwd=:oldPwd AND u.email=:emailID")
+	public Userdetails findbyOldPwd(@Param("oldPwd") String oldPwd , @Param("emailID") String emailID);
+	//(flushAutomatically = true)
+
+	@Modifying
+    @Query(value = "update Userdetails u set u.password=:enpassword, u.verifycodePwd=:password where u.userid=:userId ")       
+	public int updatePasswordDetails(@Param("enpassword") String enpassword, @Param("password") String password, @Param("userId") String userId);
+
+
+	@Query(value = "SELECT u FROM Userdetails u  where u.email=:userEmail")
+	public Userdetails getuserBymail(@Param("userEmail") String userEmail);
+
+	@Modifying
+	@Query(value = "update Userdetails u set u.password=:enpassword,u.activestatus='1', u.verifycodePwd=:password where u.email=:userEmail")
+	public int changepwdmail(String password, String enpassword, String userEmail);
+
+	@Query(value = "SELECT u FROM Userdetails u  where u.activestatus='0'")
+	public List <Userdetails> findAllRegisteredUsers();
+//(flushAutomatically = true)
+	@Modifying
+	@Query(value = "UPDATE Userdetails u SET u.activestatus='1' where u.userid=:userid")
+	public int approveUser(@Param("userid") String userid);
+//(flushAutomatically = true)
+	@Modifying
+	@Query(value = "UPDATE Userdetails u SET u.activestatus='2' where u.userid=:userid")
+	public int declineUser(@Param("userid") String userid);
+
+//	@Query(value = "select u from Userdetails u where u.placeAssigned=:outlet and u.belongsTo='Releaser'")
+//	public List <Userdetails> getReleasersForOutlet(@Param("outlet") String outlet);
+//
+////	@Query(value = "select t from MasterOutlet t")
+////	public List <MasterOutlet> getMasterOutlet();
+//
+//
+//	@Query(value = "select u from Userdetails u where u.placeAssigned=:outlet and (u.belongsTo='Releaser' OR u.belongsTo='Supervisor')")
+//	public List <Userdetails> getReleasersAndSupForOutlet(@Param("outlet") String outlet);
+//
+//	@Query(value = "SELECT u FROM Userdetails u  where u.activestatus='0' AND u.belongsTo='Releaser' AND u.placeAssigned=:outlet")
+//	public List <Userdetails> findAllRegisteredReleasersForSup(@Param("outlet") String outlet);
+
+	@Query(value = "SELECT u FROM Userdetails u  where u.belongsTo='Releaser' AND u.userid =:userId")
+	public List <Userdetails> findReleaserDetail(@Param("userId") String userId);
+
+	@Query(value = "SELECT u FROM Userdetails u WHERE u.userid=:userId")
+	public Userdetails getUserDetailsByUserid(@Param("userId") String userId);
+
+	List<Userdetails> findAllByUseridIn(List<String> userIds);
+
+	@Query(value = "SELECT u FROM Userdetails u")
+	public List<Userdetails> getAllUserDetails();
+
+	@Query(value = "SELECT u FROM Userdetails u order by u.enteredDate desc ")
+	public List<Userdetails> viewUserDetail();
+
+	@Query(value = "SELECT u FROM Userdetails u where u.verifycodePwd=:pwd and u.email=:uname ")
+	Userdetails getAllPersons(String uname, String pwd);
+
+	@Query(value = "SELECT u FROM Userdetails u where u.verifycodePwd=:pwd and u.userName=:uname ")
+	Userdetails getUserLoginDetail(String uname, String pwd);
+
+	@Query(value = "SELECT u FROM Userdetails u where u.password=:pwd and u.userName=:uname ")
+	Userdetails getUserLogin(String uname, String pwd);
+
+	@Query(value = "SELECT count(u) FROM Userdetails u where u.verifycodePwd=:password and u.email=:email and u.userid <>:userId")
+	int getUserDetails(String email, String password, String userId);
+
+	Userdetails findByUserid(String userId);
+
+	@Query(value = "SELECT u FROM Userdetails u where u.userName=:userName or u.email=:email")
+
+	Userdetails getuserByuser( String userName, String email);
+
+	@Modifying
+	@Query(value = "delete from  Userdetails u  where u.userid=:id")
+    int deleteByUserid(String id);
+
+	@Modifying
+	@Query(value = "UPDATE Userdetails u SET u.logoutTime=:timestamp where u.userid=:userId")
+	int updateLogOut(String userId, LocalDateTime timestamp);
+
+	@Query(value = "SELECT count(u) FROM Userdetails u")
+    int getcount();
+
+	@Query(value = "SELECT u.userRole FROM Userdetails u where u.userid=:userId")
+	int getUserRole(String userId);
+
+	@Query(value = "SELECT u FROM Userdetails u where u.userRole=:roleId order by u.enteredDate desc ")
+	List<Userdetails> getFilteredRoleList(int roleId);
+
+	@Query(value = "SELECT u FROM Userdetails u where u.userName=:userName")
+    Userdetails getUserbyUsername(String userName);
+
+	@Query(value = "SELECT u FROM Userdetails u where u.email=:email")
+	Userdetails getUserbyEmail(String email);
+
+
+//	int findAllByVerifycodePwdAndEmailAndNotInUserid(String password, String email,String userid);
+
+
+//	@Modifying(flushAutomatically = true)
+//	@Query(value = "update Userdetails u set u.password=:enpassword, u.verifycodePwd=:password where u.email=:userEmail ")
+//	public int updatePasswordDetailsByMail(@Param("enpassword") String enpassword, @Param("password") String password, @Param("email") String userEmail);
+//
+//	@Modifying(flushAutomatically = true)
+//	@Query(value = "update Userdetails u set u.password=:enpassword, u.verifycodePwd=:password where u.password=:oldpwd ")
+//	public int updatePasswordDetailsByOldPwd(@Param("enpassword") String enpassword, @Param("password") String password, @Param("oldpwd") String oldpwd);
+
+//	@Query(value = "SELECT u FROM Userdetails u  where u.password =:pwd AND u.email=:uname")
+//	public Userdetails getuserBymailandPwd(@Param("unmae") String uname,@Param("pwd") String pwd);
+}

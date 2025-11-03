@@ -1,0 +1,22 @@
+package com.msp.Bean;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+
+@Component
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Policies {
+    private String name;
+    private String apikey;
+    private String policyId;
+    private String validFrom;
+    private String validTo;
+    private String remainingDate;
+    private boolean active;
+}

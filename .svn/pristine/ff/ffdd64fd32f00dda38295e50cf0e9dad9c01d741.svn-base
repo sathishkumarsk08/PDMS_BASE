@@ -1,0 +1,204 @@
+package com.msp.service.mosip_pms;
+
+import com.msp.mosip_pms.model.PartnerRegistration;
+import com.msp.mosip_pms.model.PolicyGroup;
+import com.msp.mosip_pms.repository.PartnerRegistrationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Service
+@Qualifier("TransactionManager")
+@Transactional("TransactionManager")
+public class PartnerRegistrationService {
+    @Autowired
+    PartnerRegistrationRepository partnerRegistrationRepository;
+
+
+    public boolean  DeActivate(String partnerId) {
+        boolean out = true;
+        try {
+           int value= partnerRegistrationRepository.DeActivate(partnerId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            out = false;
+        }
+
+        return out;
+
+    }
+//    public  String getPartner(String partnerId) {
+//        return partnerRegistrationRepository.getPartner(partnerId);
+//    }
+    public void save(PartnerRegistration reg){
+        partnerRegistrationRepository.save(reg);
+    }
+
+    public int certificateAliasdel(String partnerId) {
+        return partnerRegistrationRepository.certificateAliasdel(partnerId);
+    }
+
+    public String maxUserid() {
+
+        return partnerRegistrationRepository.maxPartnerId();
+    }
+    public List<PartnerRegistration> viewPartnerReg(String val, boolean action, String type){
+        return partnerRegistrationRepository.viewPartnerReg(val,action, type);
+    }
+    public  String getPartnerDetails(String partnerId) {
+        return partnerRegistrationRepository.getPartnerDetails(partnerId);
+    }
+
+    public PartnerRegistration getEmailId(String partnerId) {
+        return partnerRegistrationRepository.getEmailId(partnerId);
+    }
+
+    public List<PartnerRegistration> getPartnerIdDetail(String partnerId) {
+        return partnerRegistrationRepository.getPartnerDetailId(partnerId);
+    }
+
+    public PartnerRegistration getalldata(String partnerId) {
+        return partnerRegistrationRepository.getalldata(partnerId);
+    }
+
+    public List<PartnerRegistration> findAlldevice() {
+        return partnerRegistrationRepository.getAllDevice();
+    }
+
+    public List<PartnerRegistration> findAllPolicyGroupPartner(String policyGroupId) {
+        return partnerRegistrationRepository.findAllPolicyGroupPartner(policyGroupId);
+    }
+
+    public int updatePartnerStatus(String partnerId) {
+        return partnerRegistrationRepository.updatePartnerStatus(partnerId);
+    }
+
+    public List<Object[]> noOnboardedPartner(String status, String policyGroupId, String type) {
+        return partnerRegistrationRepository.noOnboardedPartner(status,policyGroupId, type);
+    }
+
+    public List<Object[]> noOnboardedDevice(String status, String type) {
+        return partnerRegistrationRepository.noOnboardedDevice(status, type);
+    }
+
+    public List<Object[]> noOfDashboardPolicyGrpList() {
+        return partnerRegistrationRepository.noOfDashboardPolicyGrpList();
+    }
+
+    public int getMOSIPOrganizationEmailId(String partnerId,String emailId, String organizationName) {
+        return partnerRegistrationRepository.getMOSIPOrganizationEmailId(partnerId,emailId, organizationName);
+    }
+
+    public PartnerRegistration getMOSIPPartnerId(String partnerType, String emailId, String organizationName) {
+        return partnerRegistrationRepository.getMOSIPPartnerId(partnerType,emailId, organizationName);
+    }
+
+    public PartnerRegistration findByOrganization(String organizationName) {
+        return partnerRegistrationRepository.findByOrganization(organizationName);
+    }
+
+    public int updatePolicyGroup(String policies, String partId, String partnerType) {
+        return partnerRegistrationRepository.updatePolicyGroup(policies,partId,partnerType);
+    }
+
+    public List<PartnerRegistration> partnerRegList(String authPartner) {
+        return partnerRegistrationRepository.partnerRegList(authPartner);
+    }
+    public List<PartnerRegistration> partnerRegAuthMISPList(String userId) {
+        return partnerRegistrationRepository.partnerRegAuthMISPList(userId);
+    }
+    public List<PartnerRegistration> partnerRegAuthMISPList() {
+        return partnerRegistrationRepository.partnerRegAuthMISPList();
+    }
+//    public List<PartnerRegistration> deviceRegList(String authPartner) {
+//        return partnerRegistrationRepository.deviceRegList(authPartner);
+//    }
+
+    public boolean updateMOSIPPartnerRegistration(PartnerRegistration user, String id) {
+            boolean out = true;
+            try {
+                PartnerRegistration s=partnerRegistrationRepository.findAllById(id);
+                s.setAddress(user.getAddress());
+                s.setContact(user.getContact());
+//                s.setActive(user.getActive());
+                partnerRegistrationRepository.save(s);
+
+                out = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                out = false;
+            }
+
+            return out;
+        }
+
+    public int checkEmailId(String emailId) {
+        return partnerRegistrationRepository.checkEmailId(emailId);
+    }
+
+    public int checkPolicyGroupId(String groupId) {
+        return partnerRegistrationRepository.checkPolicyGroupId(groupId);
+    }
+
+
+    public void changeUserId(String partnerId, String userId) {
+        partnerRegistrationRepository.changeUserId(partnerId,userId);
+    }
+    public List<PartnerRegistration> findAllTSPPartner(String policyGroupId) {
+        return partnerRegistrationRepository.findAllTSPPartner(policyGroupId);
+    }
+    public List<PartnerRegistration> findAllPoliciesGroupPartner(String policyGroupId) {
+        return partnerRegistrationRepository.findAllPoliciesGroupPartner(policyGroupId);
+    }
+
+    public int getAuthPartnerCount() {
+        return partnerRegistrationRepository.getAuthPartnerCount();
+    }
+    public int getAuthPartnerCount(String userId) {
+        return partnerRegistrationRepository.getAuthPartnerCount(userId);
+    }
+
+    public int getDeviceCount() {
+        return partnerRegistrationRepository.getDeviceCount();
+    }
+    public int getDeviceCount( String userId) {
+        return partnerRegistrationRepository.getDeviceCount(userId);
+    }
+    public List<PartnerRegistration> deviceFTMRegList(String userId) {
+        return partnerRegistrationRepository.deviceFTMRegList(userId);
+    }
+    public List<PartnerRegistration> deviceFTMRegList() {
+        return partnerRegistrationRepository.deviceFTMRegList();
+    }
+    public List<PartnerRegistration> deviceFTMRegListFilter(String userId , String val) {
+        return partnerRegistrationRepository.deviceFTMRegListFilter(userId , val);
+    }
+    public List<PartnerRegistration> deviceFTMRegListFilter(String val) {
+        return partnerRegistrationRepository.deviceFTMRegListFilter(val);
+    }
+    public int getUploadPendingCount() {
+        return partnerRegistrationRepository.getUploadPendingCount();
+    }
+    public int getActiveCount() {
+        return partnerRegistrationRepository.getActiveCount();
+    }
+    public int getDeActiveCount() {
+        return partnerRegistrationRepository.getDeActiveCount();
+    }
+
+    public int getIrisCount(List<String> iris) {
+        return partnerRegistrationRepository.getIrisCount(iris);
+    }
+
+    public List<String> getOnlyDeviceCount() {
+        return partnerRegistrationRepository.getOnlyDeviceCount();
+    }
+    public List<String> getOnlyDeviceCount( String userId) {
+        return partnerRegistrationRepository.getOnlyDeviceCount(userId);
+    }
+}

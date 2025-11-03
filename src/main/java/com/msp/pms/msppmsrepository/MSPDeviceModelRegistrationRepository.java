@@ -1,0 +1,160 @@
+package com.msp.pms.msppmsrepository;
+
+import com.msp.pms.msppmsmodel.MSPDeviceModelRegistration;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Component
+@Repository
+public interface MSPDeviceModelRegistrationRepository extends CrudRepository<MSPDeviceModelRegistration, String> {
+
+
+    @Query(nativeQuery = true, value = "SELECT device_id from msppms.device_model_register ORDER BY dev_crdtimes DESC limit 1")
+    public String maxPartnerId();
+
+//    @Query(value = "SELECT u FROM MSPDeviceModelRegistration u  where u.status  in (:status,'approved') and u.isDeleted=:active and u.certAliasFTM IS NULL")
+    //changes in upload device ngoninit metjhos()
+    @Query(value = "SELECT u FROM MSPDeviceModelRegistration u  where u.status=:status  and u.partnerType=:perform order by u.crDtTime desc")
+    public List<MSPDeviceModelRegistration> viewDeviceReg(String status , String perform);
+//@Query(value = "SELECT u FROM MSPDeviceModelRegistration u  where u.status=:status and u.isDeleted=:active")
+//public List<MSPDeviceModelRegistration> viewDeviceReg(String status , boolean active);
+
+    @Query(value = "select t from MSPDeviceModelRegistration t order by t.name asc ")
+    public List<MSPDeviceModelRegistration> getdeviceregmodel();
+
+    @Query(value = "SELECT R FROM MSPDeviceModelRegistration R where R.status='approved' order by R.name asc ")
+    public List<MSPDeviceModelRegistration> findAllpartners();
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update MSPDeviceModelRegistration u set u.certAlias=:certificateId, u.status='approved'  where u.id=:partnerId")
+    int certificateAlias(String partnerId, String certificateId);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update MSPDeviceModelRegistration u set u.certAliasFTM=:certificateId,u.status='approved', u.deviceFtm=:domain where u.id=:partnerId ")
+    int ftmCertificateAlias(String partnerId, String certificateId,String domain);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update MSPDeviceModelRegistration u set u.susBlackStatus=:actionPerformed , u.suspended=:suspenId  where u.id=:partnerId ")
+    int suspendedDevice(String actionPerformed, String partnerId, String suspenId);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update MSPDeviceModelRegistration u set u.susBlackStatus=:actionPerformed , u.blacklisted=:blacklistId where u.id=:partnerId ")
+    int backlistDevice(String actionPerformed, String partnerId, String blacklistId);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update MSPDeviceModelRegistration u set u.susBlackStatus=:actionPerformed , u.revoked=:revokeId where u.id=:partnerId")
+    int revokeDevice(String actionPerformed, String partnerId, String revokeId);
+
+
+    @Query(value = "SELECT t.name  from MSPDeviceModelRegistration t  where t.id=:partnerId")
+    public String getPartnerDetails(String partnerId);
+
+//    @Query(nativeQuery = true, value = "select pg.policy_group_name, pr.partner_id, pr.orga_name,pr.mobile_no, pr.email_id,pr.part_status  from msppms.partner_registration_old pr \n" +
+//            "inner join msppms.policy_group pg\n" +
+//            "on pg.policy_group_id = pr.policy_group\n" +
+//            "where part_status=:status and policy_group=:policyGroupId and part_crdtimes >=:strtDate and part_crdtimes <=:endDate")
+
+    @Query(value = "SELECT u FROM MSPDeviceModelRegistration u  where u.status=:status and u.crDtTime>=:strtDate and u.crDtTime<=:endDate order by u.crDtTime desc")
+    List<MSPDeviceModelRegistration> noOnboardedDevice(String status, LocalDateTime strtDate, LocalDateTime endDate);
+
+
+    @Query(nativeQuery = true, value = "select count(*),dev_status from msppms.device_model_register where dev_status in ('suspended','backlist','revovke') group by dev_status")
+    List<Object[]> dashboardDevicSusBackRevoke();
+
+    @Query(value = "SELECT t  from MSPDeviceModelRegistration t  where t.id=:partnerId")
+    MSPDeviceModelRegistration getDetailId(String partnerId);
+
+    @Query ("select t from MSPDeviceModelRegistration t order by t.flag asc")
+    List<MSPDeviceModelRegistration> notificationList();
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update MSPDeviceModelRegistration u set u.flag=1 where u.id=:device ")
+    void changeNotificationList(String device);
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update  MSPDeviceModelRegistration u set u.status='InProgress' where u.id=:partnerId")
+    int certificateAliasdel(String partnerId);
+
+    @Modifying
+    @Query(value = "update  MSPDeviceModelRegistration u set  u.susBlackStatus=null,u.suspended=null ,u.blacklisted=null ,u.revoked=null ,u.isDeleted=:status where u.id= :id")
+    int UpdateStatus(String id, boolean status);
+
+    @Query(nativeQuery = true, value = "select  pr.device_id, pr.org_name,pr.mobile_no, pr.email_id,pr.dev_status  \n" +
+            "from msppms.device_model_register pr\n" +
+            " inner join msppms.device_suspension ps\n" +
+            " on ps.device_id = pr.device_id      \n" +
+            " where pr.sus_black_status=:status group by pr.device_id, pr.org_name,pr.mobile_no, pr.email_id,pr.dev_status")
+    List<Object[]> suspendedDeviceList(String status);
+
+    @Query(nativeQuery = true, value = "select  pr.device_id, pr.org_name,pr.mobile_no, pr.email_id,pr.dev_status \n" +
+          "from msppms.device_model_register pr \n" +
+          " inner join msppms.device_blacklisted ps \n" +
+           " on ps.device_id = pr.device_id    \n" +
+            " where pr.sus_black_status=:status group by pr.device_id, pr.org_name,pr.mobile_no, pr.email_id,pr.dev_status")
+    List<Object[]> backlistDeviceList(String status);
+
+    @Query(nativeQuery = true, value = "select  pr.device_id, pr.org_name,pr.mobile_no, pr.email_id,pr.dev_status \n" +
+         "from msppms.device_model_register pr \n" +
+           " inner join msppms.device_revoked ps \n" +
+           " on ps.device_id = pr.device_id   \n" +
+           " where pr.sus_black_status=:status group by pr.device_id, pr.org_name,pr.mobile_no, pr.email_id,pr.dev_status")
+    List<Object[]> revokeDeviceList(String status);
+
+    @Query(value = "SELECT count(t)  from MSPDeviceModelRegistration t  where t.partnerType=:parttype and t.email=:emailId and t.name=:organizationName")
+    int getPMSOrganizationEmailId(String parttype,String emailId, String organizationName);
+
+
+    @Query(value = "SELECT t.id from MSPDeviceModelRegistration t  where t.partnerType=:parttype and t.email=:emailId and t.name=:organizationName group by t.id")
+    String getPmsPartnerId(String parttype, String emailId, String organizationName);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update  MSPDeviceModelRegistration u set u.mobilenumber=:contact where u.id= :partnerId")
+    int update(String partnerId, String contact);
+
+    @Query(value = "SELECT count(t)  from MSPDeviceModelRegistration t  where t.flag=0")
+    Long flagCount();
+
+    MSPDeviceModelRegistration findAllById(String deviceId);
+
+    @Query(value = "SELECT t.id  from MSPDeviceModelRegistration t  where t.deviceType=:type and t.partnerType='Device_Provider' and t.status='approved'")
+    List<String> getDeviceTypeId(String type);
+
+    @Query(value = "SELECT count(t)  from MSPDeviceModelRegistration t  where t.id in :deviceCount and t.deviceType in ('iris','face','finger')")
+    int getOnlyDeviceCount(List<String> deviceCount);
+
+    @Query(value = "SELECT t.id  from MSPDeviceModelRegistration t where t.partnerType in ('Device_Provider','FTM_Provider') and t.susBlackStatus is null")
+    List<String> getMSNotInPSusBlackPartnerRegAuthList();
+
+    @Query(value = "SELECT t.id  from MSPDeviceModelRegistration t where t.partnerType in ('Device_Provider','FTM_Provider') and t.susBlackStatus=:val")
+    List<String> getMSPSusBlackPartnerRegAuthList(String val);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update  MSPDeviceModelRegistration u set u.status='approved' where u.id=:partnerId")
+    int certificateAliasUpdateForRootInter(String partnerId);
+
+    @Query(nativeQuery = true , value = "select dv.device_id from msppms.device_model_register dv where dv.partner_type in('Device_Provider','FTM_Provider') and dv.sus_black_status=:val and dv.dev_crdtimes between cast(:startDate as timestamp) and cast(:endDate as timestamp)")
+    List<String> getMSPSusBlackPartnerRegList(String val,String startDate, String endDate);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update  MSPDeviceModelRegistration u set u.suspended=null,u.susBlackStatus=null,u.isDeleted=true where u.id=:partnerId")
+    int deleteSuspensionId(String partnerId);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update  MSPDeviceModelRegistration u set u.blacklisted=null,u.susBlackStatus=null,u.isDeleted=true where u.id=:partnerId")
+    int deleteBlackListId(String partnerId);
+
+    @Query(nativeQuery = true , value = "select count(dr.device_id) from msppms.device_model_register dmr inner join msppms.device_registration dr\n" +
+            "on dmr.device_id = dr.device_model \n" +
+            "where dmr.partner_type = 'Device_Provider' and dmr.device_id =:deviceId and dr.device_model =:deviceId")
+    int checkBulkDevCount(String deviceId);
+
+    @Query(value = "SELECT t.susBlackStatus from MSPDeviceModelRegistration t where t.id=:id")
+    String getSusBlackRevStatus(String id);
+
+    @Query(value = "SELECT t.id  from MSPDeviceModelRegistration t where t.partnerType in ('Device_Provider','FTM_Provider')")
+    List<String> getMSPDeviceList();
+}

@@ -1,0 +1,23 @@
+package com.msp.pms.msppmsrepository;
+
+import com.msp.pms.msppmsmodel.NotificationSystem;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface NotificationSystemRepository extends CrudRepository<NotificationSystem, Integer> {
+
+    @Query(value = "SELECT count(t)  from NotificationSystem t  where t.flag=0")
+    Long flagCount();
+
+    @Query(value = "SELECT t from NotificationSystem t  where t.flag=0 and t.active= true order by t.crdtimes desc")
+    List<NotificationSystem> notificationList();
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update NotificationSystem u set u.flag=1 where u.sno=:sno")
+    void changeNotificationList(int sno);
+}

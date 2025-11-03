@@ -1,0 +1,116 @@
+package com.msp.service.msp_pms;
+
+import com.msp.common.APIConnection;
+import com.msp.mosip_pms.model.PolicyType;
+import com.msp.pms.msppmsmodel.*;
+import com.msp.pms.msppmsrepository.NotificationSystemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@Qualifier("mspPmsTransactionManager")
+@Transactional("mspPmsTransactionManager")
+public class NotificationSystemService {
+
+    @Autowired
+    public NotificationSystemRepository notificationServiceRepo;
+    NotificationSystem notifiSys = null;
+
+    public void savePartnerRegistration(MSPPartnerRegistration partnerreg, String userId) {
+        notifiSys = new NotificationSystem();
+        notifiSys.setFlag(0);
+        notifiSys.setCrdtimes(APIConnection.getUTCCurrentDateTime());
+        notifiSys.setContent("Partner Id-"+ partnerreg.getPartnerId() + " Registered ");
+        notifiSys.setPartnerId(partnerreg.getPartnerId());
+        notifiSys.setAuthType(partnerreg.getPartnerType());
+        notifiSys.setActive(true);
+        notifiSys.setCrBy(userId);
+        notifiSys.setType("New Partner Registered");
+        notifiSys.setUrl("./pmp/view/regpartnerdetails");
+        notifiSys.setEventType("Partner");
+        notificationServiceRepo.save(notifiSys);
+
+    }
+
+    public void saveDeviceRegistration(MSPDeviceModelRegistration partnerreg, String userId) {
+        notifiSys  = new NotificationSystem();
+        notifiSys.setFlag(0);
+        notifiSys.setCrdtimes(APIConnection.getUTCCurrentDateTime());
+        notifiSys.setContent("Device Id-" + partnerreg.getId()+ " Registered ");
+        notifiSys.setPartnerId(partnerreg.getId());
+        notifiSys.setAuthType(partnerreg.getPartnerType());
+        notifiSys.setActive(true);
+        notifiSys.setCrBy(userId);
+        notifiSys.setType("New Device Registered");
+        notifiSys.setUrl("./pmp/view/regdevdetails");
+        notifiSys.setEventType("Device");
+        notificationServiceRepo.save(notifiSys);
+    }
+
+    public void savePolicyType(MSPPolicyType policy, String userId, String policyTypeId) {
+        notifiSys = new NotificationSystem();
+        notifiSys.setFlag(0);
+        notifiSys.setCrdtimes(APIConnection.getUTCCurrentDateTime());
+        notifiSys.setContent(policy.getPolicyTypeName()+" policy Type Added");
+        notifiSys.setPolicyTypeId(policyTypeId);
+        notifiSys.setPartnerId(policy.getFileId());
+
+        notifiSys.setActive(true);
+        notifiSys.setCrBy(userId);
+        notifiSys.setType("Policies Registered");
+        notifiSys.setEventType("Policy");
+        notifiSys.setUrl("./pmp/view/policytypedetails");
+        notificationServiceRepo.save(notifiSys);
+    }
+
+
+
+    public void savePartnerPolicyRequest(MSPPartnerPolicyRequest req, String userId) {
+        notifiSys = new NotificationSystem();
+        notifiSys.setFlag(0);
+        notifiSys.setCrdtimes(APIConnection.getUTCCurrentDateTime());
+        notifiSys.setContent("Partner Policy Approved for PartnerId- "+req.getPartId() +" and Policy Type Id-"+req.getPolicyId()+" and APIKey-"+req.getApiKey());
+      notifiSys.setPartnerId(req.getPartId());
+       notifiSys.setPartnerPolicyRqt(req.getApiKey());
+        notifiSys.setActive(true);
+        notifiSys.setCrBy(userId);
+        notifiSys.setType("New Partner Policy Approved");
+        notifiSys.setEventType("Partner");
+        notifiSys.setUrl("./pmp/view/regpartnerdetails");
+        notificationServiceRepo.save(notifiSys);
+    }
+
+
+    public void publishRejectedPolicy(PolicyType policy, String userId, String performed) {
+        notifiSys = new NotificationSystem();
+        notifiSys.setFlag(0);
+        notifiSys.setCrdtimes(APIConnection.getUTCCurrentDateTime());
+        notifiSys.setContent(performed +" Policy Type -" + policy.getName());
+        notifiSys.setPolicyTypeId(policy.getId());
+        notifiSys.setActive(true);
+        notifiSys.setCrBy(userId);
+        notifiSys.setType("Policies "+performed );
+        notifiSys.setEventType("Policy");
+        notifiSys.setUrl("./pmp/view/policytypedetails");
+        notificationServiceRepo.save(notifiSys);
+    }
+
+
+
+    public Long flagCount(String loginUserId) {
+        return notificationServiceRepo.flagCount(loginUserId);
+    }
+
+    public List<NotificationSystem> notificationList(String loginUserId) {
+        return notificationServiceRepo.notificationList(loginUserId);
+    }
+    public void changeNotificationList( String sno) {
+        int snoList = Integer.valueOf(sno);
+        notificationServiceRepo.changeNotificationList(snoList);
+    }
+
+}

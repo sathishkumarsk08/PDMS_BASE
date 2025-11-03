@@ -1,0 +1,65 @@
+package com.msp.mosip_pms.repository;
+
+import com.msp.mosip_pms.model.PolicyType;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Repository
+public interface PolicyTypeRepository extends CrudRepository<PolicyType, Integer> {
+
+
+
+    @Query(nativeQuery = true,value = "select * from pms.auth_policy where policy_group_id=:policyGroupId and id not in (select policy_id from pms.partner_policy where part_id=:partnerId and is_deleted=false) and is_active=true and valid_to_date >= now()")
+    List<PolicyType> findAllPolicyGroupPolicies(String policyGroupId, String partnerId);
+
+    @Query(value = "SELECT u FROM PolicyType u where u.isActive=true order by u.crDtimes desc ")
+    public List<PolicyType> viewPolicyType();
+
+    @Query(value = "SELECT u FROM PolicyType u order by u.crDtimes desc ")
+    public List<PolicyType> viewListPolicyType();
+
+    @Query(nativeQuery = true,value = "select pt.id, pt.policy_group_id,pt.name as policiesName,pt.policy_file_id,pt.is_active,pg.name as policygroupname from pms.auth_policy as pt\n" +
+            "        inner join pms.policy_group as pg on pt.policy_group_id = pg.id  where pt.is_active =:status  order by pt.cr_dtimes desc")
+    ArrayList<Object[]> getPolicyGroupType(boolean status);
+
+    @Query(value = "SELECT t from PolicyType t where t.policyGroupId=:policyGroupId")
+    PolicyType getPolicyTypeName(String policyGroupId);
+
+    @Query(value = "SELECT t from PolicyType t where t.name=:policies")
+    PolicyType getPolicyTypeId(String policies);
+
+    @Query(value = "SELECT t from PolicyType t where t.id=:policiesId")
+    PolicyType getPolicyTypeDetail(String policiesId);
+
+    PolicyType findAllById(String id);
+
+    void deleteById(String id);
+
+    @Modifying(flushAutomatically = true)
+    @Query(value = "update PolicyType u set u.crBy=:userId  where u.id=:id ")
+    void changeUserId(String userId, String id);
+
+    @Query(value = "SELECT count(t) from PolicyType t where t.policyGroupId=:id")
+    int checkPolicyGroupId(String id);
+
+    @Query(value = "SELECT t from PolicyType t where t.policyGroupId=:policyGroupId")
+    List<PolicyType> getPoliciesGroupBased(String policyGroupId);
+
+
+    @Query(value = "SELECT count(t) from PolicyType t")
+    int getCount();
+
+    @Query(value = "SELECT count(t) from PolicyType t where t.validToDate > current_date and t.isActive=true")
+   int getActivePolicy();
+
+    @Query(value = "SELECT count(t) from PolicyType t where t.validToDate > current_date and t.isActive=false")
+    int getDeActivePolicy();
+
+    @Query(value = "SELECT count(t) from PolicyType t where t.validToDate < current_date ")
+    int getExpiryPolicy();
+}

@@ -1,0 +1,73 @@
+package com.msp.service.msp_pms;
+
+import com.msp.common.APIConnection;
+import com.msp.common.Encryption;
+import com.msp.pms.msppmsmodel.AuditLogs;
+import com.msp.pms.msppmsrepository.MSPAuditLogRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ResourceBundle;
+
+@Service
+@Qualifier("mspPmsTransactionManager")
+@Transactional("mspPmsTransactionManager")
+public class MSPAuditLogs {
+
+    @Autowired
+    private MSPAuditLogRepository mspAuditLogRepository;
+
+    @Autowired
+    private Encryption encrypt;
+
+    public void save(){
+//        mspAuditLogRepository.save();
+    }
+    public void setAuditRequestDto(com.msp.util.PartnerManageEnum PartnerManageEnum, HttpServletRequest request) {
+        AuditLogs auditRequestDto = new AuditLogs();
+        ResourceBundle bundle = APIConnection.readConfig();
+        auditRequestDto.setHostIp(request.getRemoteHost());
+        System.out.println( ", request = " + request.getRemoteHost());
+        auditRequestDto.setHostName( bundle.getString("auth.pwd"));
+        auditRequestDto.setAppId(PartnerManageEnum.getApplicationId());
+        auditRequestDto.setAppName(PartnerManageEnum.getApplicationName());
+        auditRequestDto.setSessionUserId(bundle.getString("auth.appid"));
+        auditRequestDto.setSessionUserName(bundle.getString("auth.username"));
+        auditRequestDto.setCrBy(bundle.getString("auth.appid"));
+        auditRequestDto.setActionDtimes((encrypt.getUTCCurrentDateTime()));
+//        auditRequestDto.setLogDtimes(encrypt.getUTCCurrentDateTime());
+        auditRequestDto.setLogDesc(PartnerManageEnum.getDescription());
+        auditRequestDto.setEventType(PartnerManageEnum.getType());
+        auditRequestDto.setEventName(PartnerManageEnum.getName());
+        auditRequestDto.setModuleId(PartnerManageEnum.getModuleId());
+        auditRequestDto.setModuleName(PartnerManageEnum.getModuleName());
+        auditRequestDto.setEventId(PartnerManageEnum.getEventId());
+//        auditRequestDto.setActionDtimes(encrypt.getUTCCurrentDateTime());
+        String partnerId= LogId();
+        auditRequestDto.setIdLog(partnerId);
+        auditRequestDto.setRefIdType(PartnerManageEnum.getIdType());
+//        callAuditManager(auditRequestDto);
+        mspAuditLogRepository.save(auditRequestDto);
+    }
+    public String LogId() {
+        String logIdGenerate = mspAuditLogRepository.maxUserid();
+       String partnerId="" ,text="";
+//        System.out.println("testing"+PolicyGroupId+policyGrp);//
+//		System.out.println("userId" +userIdGenerate);
+        if (logIdGenerate == null || logIdGenerate.length() == 0) {
+            partnerId = "LOG" + APIConnection.formatToGenerateID(APIConnection.getUTCCurrentDateTime()) + "00001";
+
+        } else {
+            text = logIdGenerate.substring(11);
+            text = String.format("%0" + text.length() + "d", Long.parseLong(text) + 1);
+            System.out.println("checking:" + text);
+            partnerId = "LOG" + APIConnection.formatToGenerateID(APIConnection.getUTCCurrentDateTime()) + text;
+        }
+        return partnerId;
+    }
+
+
+}

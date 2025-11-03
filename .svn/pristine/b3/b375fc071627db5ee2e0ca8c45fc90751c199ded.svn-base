@@ -1,0 +1,29 @@
+package com.msp.pms.msppmsrepository;
+
+import com.msp.pms.msppmsmodel.MSPPartnerRegistration;
+import com.msp.pms.msppmsmodel.MSPPartnerSuspension;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+
+//@Component
+@Repository
+public interface MSPPartnerSuspensionRepository extends CrudRepository<MSPPartnerSuspension, Integer> {
+
+
+
+    @Query(nativeQuery = true , value = "select * from msppms.partner_suspension p where p.end_date_sus between cast(:yesterday as timestamp) and cast(:today as timestamp)")
+    List<MSPPartnerSuspension> getExpiredPartnerSuspension(LocalDate yesterday, LocalDate today);
+
+//    @Query(value = "SELECT t  from MSPPartnerSuspension t where t.partStatus=:status and t.isactive=:action ORDER BY t.partcrDtTime DESC")
+//    List<MSPPartnerSuspension> viewPartnerReg(String status, boolean action );
+    @Query("select count(u) from MSPPartnerSuspension u where u.id=:partnerId ")
+    int checkPartnerId(String partnerId);
+
+    @Query(nativeQuery = true, value = "select sus_id from msppms.partner_suspension order by sus_crdtimes desc limit 1 ")
+    public String maxPartnerId();
+}

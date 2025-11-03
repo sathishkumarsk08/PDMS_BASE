@@ -1,0 +1,232 @@
+package com.msp.mosip_pms.model;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Entity
+@Table(name = "partner" ,schema ="pms")
+public class PartnerRegistration implements java.io.Serializable {
+
+    private String id;
+    private String groupId;
+    private String name;
+    private String address;
+    private String contact;
+    private String email;
+    private String certificate;
+    private String userId;
+    private String partnerType;
+    private String approvalStatus;
+    private Boolean active;
+    private String crBy;
+    private LocalDateTime crDTime;
+    private String updBy;
+    private LocalDateTime updDTime;
+    private Boolean isDeleted;
+    private LocalDateTime delDTime;
+
+
+//    private Integer partnerSno;
+//    private String partnerId;
+//    private String organisationName;
+//    private String authenticationRepName;
+//    private String partnerType;
+//    private String mobileNumber;
+//    private String emailId;
+//    private String psaApproval;
+//    private String selfAssessment;
+//    private String nonDisclosureAgreement;
+//    private String otherDocument;
+//    private String partStatus;
+//    private Integer partcreatedBy;
+//    private  LocalDateTime partcrDtTime;
+//    private Integer userId;
+//    private Integer partupdBy;
+//    private LocalDateTime partupDtTime;
+//    private boolean isDeleted;
+//    private LocalDateTime delDateTime;
+//    private String policyType;
+//    private Integer suspended;
+//    private Integer blacklisted;
+//    private Integer revoked;
+
+//    private String id;
+//    private String groupId;
+//    private  String name;
+//    private String address;
+//    private  String contact;
+//    private String email;
+//    private String certificate;
+//    private  String userId;
+//    private  String partnerType;
+//    private  String approvalStatus;
+//    private Boolean active;
+//    private String crBy;
+//    private LocalDateTime crDTime;
+//    private  String updBy;
+//    private LocalDateTime updDTime;
+//    private Boolean isDeleted;
+//    private LocalDateTime delDTime;
+
+
+    @Id
+    @Column(name = "id")
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Column(name = "policy_group_id")
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Column(name = "address")
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @Column(name = "contact_no")
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    @Column(name = "email_id")
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
+
+    @Column(name = "certificate_alias")
+    public String getCertificate() {
+        return certificate;
+    }
+
+    public void setCertificate(String certificate) {
+        this.certificate = certificate;
+    }
+
+    @Column(name = "user_id")
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    @Column(name = "partner_type_code")
+    public String getPartnerType() {
+        return partnerType;
+    }
+
+    public void setPartnerType(String partnerType) {
+        this.partnerType = partnerType;
+    }
+
+    @Column(name = "approval_status")
+    public String getApprovalStatus() {
+        return approvalStatus;
+    }
+
+    public void setApprovalStatus(String approvalStatus) {
+        this.approvalStatus = approvalStatus;
+    }
+
+    @Column(name = "is_active")
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    @Column(name = "cr_by")
+    public String getCrBy() {
+        return crBy;
+    }
+
+    public void setCrBy(String crBy) {
+        this.crBy = crBy;
+    }
+
+    @Column(name = "cr_dtimes")
+    public LocalDateTime getCrDTime() {
+        return crDTime;
+    }
+
+    public void setCrDTime(LocalDateTime crDTime) {
+        this.crDTime = crDTime;
+    }
+
+    @Column(name = "upd_by")
+    public String getUpdBy() {
+        return updBy;
+    }
+
+    public void setUpdBy(String updBy) {
+        this.updBy = updBy;
+    }
+
+    @Column(name = "upd_dtimes")
+    public LocalDateTime getUpdDTime() {
+        return updDTime;
+    }
+
+    public void setUpdDTime(LocalDateTime updDTime) {
+        this.updDTime = updDTime;
+    }
+
+    @Column(name = "is_deleted")
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    @Column(name = "del_dtimes")
+    public LocalDateTime getDelDTime() {
+        return delDTime;
+    }
+
+    public void setDelDTime(LocalDateTime delDTime) {
+        this.delDTime = delDTime;
+    }
+
+
+}
+

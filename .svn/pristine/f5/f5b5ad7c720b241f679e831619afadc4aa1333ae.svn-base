@@ -1,0 +1,282 @@
+package com.msp.common;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.*;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
+import javax.net.ssl.*;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
+public class APIConnection {
+
+    private static String TOKEN = "";
+    private static LocalDateTime EXPIRED_DATE;
+    private static File propertyFile;
+
+
+    @Autowired
+    static
+    RestTemplate restTemplate;
+
+    public static String connectApi(String http_url, String methodType, String request, String connectionType){
+        OutputStream ouputStream = null;
+        String http_response = null;
+        try {
+            URLConnection url = new URL(http_url).openConnection();
+            url.setRequestProperty("Content-Type", "application/json");
+            url.setRequestProperty("Accept", "application/json");
+            url.setDoOutput(true);
+            if (connectionType.equals("Cookie")){
+                url.setRequestProperty("Cookie", "Authorization="+TOKEN);
+            }
+            if (methodType.equals("POST")){
+                ouputStream = url.getOutputStream();
+                ouputStream.write(request.getBytes());
+                ouputStream.flush();
+            } else if (methodType.equals("PATCH")) {
+                return connectHTTPSApis(http_url, request);
+            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.getInputStream()));
+            if (connectionType.equals("Auth")){
+                TOKEN = url.getHeaderField("Authorization");
+                EXPIRED_DATE = LocalDateTime.now().plusDays(1);
+                System.out.println("EXPIREED_DATE :"+EXPIRED_DATE);
+            }
+//            System.out.println("API.....Token :"+TOKEN);
+            String tmpStr = null;
+            while ((tmpStr = reader.readLine()) != null) {
+                http_response = tmpStr;
+            }
+            System.out.println("API.....TText :"+http_response);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return http_response;
+    }
+    public static void turnOffSslChecking() throws NoSuchAlgorithmException, KeyManagementException {
+        // Install the all-trusting trust manager
+        final SSLContext sc = SSLContext.getInstance("SSL");
+        sc.init(null, UNQUESTIONING_TRUST_MANAGER, null);
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+        // Create all-trusting host name verifier
+        HostnameVerifier allHostsValid = new HostnameVerifier() {
+            public boolean verify(String hostname, SSLSession session) {
+                return true;
+            }
+        };
+        // Install the all-trusting host verifier
+        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+    }
+
+
+    /***** Checking FP Device Ends ******/
+    public static final TrustManager[] UNQUESTIONING_TRUST_MANAGER = new TrustManager[]{new X509TrustManager() {
+        @Override
+        public void checkClientTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
+        }
+
+        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+            return null;
+        }
+
+        /* (non-Javadoc)
+         * @see javax.net.ssl.X509TrustManager#checkServerTrusted(java.security.cert.X509Certificate[], java.lang.String)
+         */
+        @Override
+        public void checkServerTrusted(X509Certificate[] arg0, String arg1)
+                throws java.security.cert.CertificateException {
+            // TODO Auto-generated method stub
+        }
+    }};
+    public static String postRest(MultiValueMap<String, Object> body, String url) throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, JSONException {
+
+//		SslOff sslOff = new SslOff();
+//		RestTemplate restTemplate = sslOff.turnOffSslChecking();
+//        ResponseEntity<String> response = null;
+        RestTemplate restTemplatetest=new RestTemplate();
+        turnOffSslChecking();
+        APIConnection.authenticate();
+        ResourceBundle bundle = APIConnection.readConfig();
+        HttpMethod requestMethod = HttpMethod.POST;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        headers.add( "Cookie", "Authorization="+TOKEN);
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+        System.out.println("url checking:"+url);
+        ResponseEntity<String> response = restTemplatetest.exchange(url, requestMethod, requestEntity, String.class);
+        System.out.println("response:"+response);
+//        JSONObject jsonObject = new JSONObject(response.getBody());
+//        return jsonObject.toString();
+        return response.getBody();
+    }
+
+    public static String connectHTTPSApis(String http_url, String request){
+        String response = null;
+        OutputStream ouputStream = null;
+        try {
+            allowMethods("PATCH");
+            HttpsURLConnection url = (HttpsURLConnection) new URL(http_url).openConnection();
+            url.setRequestProperty("Content-Type", "application/json");
+            url.setRequestProperty("Accept", "application/json");
+            url.setRequestMethod("PATCH");
+//            url.setRequestProperty("X-HTTP-Method-Override", "PATCH");
+            if (!TOKEN.isEmpty()){
+                url.setRequestProperty("Cookie", "Authorization="+TOKEN);
+            }
+            url.setDoOutput(true);
+            ouputStream = url.getOutputStream();
+            ouputStream.write(request.getBytes());
+            ouputStream.flush();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.getInputStream()));
+            String tmpStr= null;
+            while ((tmpStr = reader.readLine()) != null) {
+                response = tmpStr;
+            }
+            System.out.println("API..HTTP...TText :"+response);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    public static ResourceBundle readConfig(){
+        ResourceBundle bundle = null;
+        try{
+            String filePath1 = new FileSystemResource("").getFile().getAbsolutePath();
+            FileInputStream inputStream = new FileInputStream(filePath1+"/PMS_config.conf");
+            System.out.println("file path:"+filePath1);
+            bundle = new PropertyResourceBundle(inputStream);
+//            String sOsName = System.getProperty("os.name");
+//
+//            if (sOsName.startsWith("Windows")) {
+//                System.out.println("WINDOWS OS");
+//                String filePath = new FileSystemResource("").getFile().getAbsolutePath();
+//                propertyFile = new File(filePath+"/PMS_config.conf");
+//                FileInputStream inputStream1 = new FileInputStream(propertyFile+"/PMS_config.conf");
+////                FileInputStream inputStream1 = new FileInputStream(propertyFile+"/PMS_config.conf");
+//                bundle = new PropertyResourceBundle(inputStream1);
+//                System.out.println("filepath :"+filePath);
+//            } else {
+//
+//                if ((sOsName.startsWith("Linux")) || (sOsName.startsWith("Mac")) || (sOsName.startsWith("HP-UX"))) {
+//                    System.out.println("LINUX OS");
+//                    File catalinaBase = new File(System.getProperty("catalina.base")).getAbsoluteFile();
+//                    propertyFile = new File(catalinaBase, "bin/PMS_config.conf");
+//                    FileInputStream inputStream1 = new FileInputStream(propertyFile+"/PMS_config.conf");
+//                    bundle = new PropertyResourceBundle(inputStream1);
+//                } else {
+//                    System.out.println("The current operating system '" + sOsName + "' is not supported.");
+//                }
+//            }
+        } catch (FileNotFoundException exception){
+            System.out.println("FileNotFoundException ");
+        } catch (IOException e) {
+            System.out.println("IOException ");
+        }
+        return bundle;
+    }
+
+    private static void allowMethods(String... methods) {
+        try {
+            Field methodsField = HttpURLConnection.class.getDeclaredField("methods");
+
+            Field modifiersField = Field.class.getDeclaredField("modifiers");
+            modifiersField.setAccessible(true);
+            modifiersField.setInt(methodsField, methodsField.getModifiers() & ~Modifier.FINAL);
+
+            methodsField.setAccessible(true);
+
+            String[] oldMethods = (String[]) methodsField.get(null);
+            Set<String> methodsSet = new LinkedHashSet<>(Arrays.asList(oldMethods));
+            methodsSet.addAll(Arrays.asList(methods));
+            String[] newMethods = methodsSet.toArray(new String[0]);
+
+            methodsField.set(null/*static field*/, newMethods);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+    public static String formatToISOString(LocalDateTime localDateTime) {
+        return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+    }
+
+    public static String formatToGenerateID(LocalDateTime localDateTime) {
+        return localDateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+    }
+
+    public static LocalDateTime getUTCCurrentDateTime() {
+        return ZonedDateTime.now(ZoneOffset.UTC).toLocalDateTime();
+    }
+
+    public static void authenticate() {
+        ResourceBundle bundle = readConfig();
+        JSONObject template = new JSONObject(bundle.getString("template"));
+        try {
+
+            JSONObject auth_request = template.getJSONObject("request");
+            auth_request.put("appId", bundle.getString("auth.appid"));
+            auth_request.put("password", bundle.getString("auth.pwd"));
+            auth_request.put("userName", bundle.getString("auth.username"));
+//            auth_request.put("secretKey", bundle.getString("auth.pwd"));
+//            auth_request.put("clientId", bundle.getString("auth.username"));
+//            /v1/authmanager/authenticate/useridPwd
+            template.put("requesttime", APIConnection.formatToISOString(APIConnection.getUTCCurrentDateTime()));
+            template.put("request", auth_request);
+            System.out.println("auth_request :" + auth_request.toString());
+            System.out.println("Template :" + template.toString());
+            EXPIRED_DATE= LocalDateTime.now().plusDays(1);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        try{
+            connectApi(bundle.getString("base.url")+bundle.getString("version")+bundle.getString("authmanager.url"),
+                    "POST",template.toString(),"Auth");
+//
+//            if (TOKEN == null || TOKEN.isEmpty()){
+//                System.out.println("token checking");
+//                connectApi(bundle.getString("base.url")+bundle.getString("version")+bundle.getString("authmanager.url"),
+//                        "POST",template.toString(),"Auth");
+//                System.out.println("Authenticate ");
+//            }else if (LocalDateTime.now().isAfter(EXPIRED_DATE)){
+//                connectApi(bundle.getString("base.url")+bundle.getString("version")+bundle.getString("authmanager.url"),
+//                        "POST",template.toString(),"Auth");
+//                System.out.println("Expired Date .. new Auth Start ..");
+//            }
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }
+    }
+//    public static  void checkAuth() {
+//        if (TOKEN == null) {
+//            authenticate();
+//        } else if (getUTCCurrentDateTime().isAfter(EXPIRED_DATE)) {
+//            System.out.println("Token is Expired :");
+//            authenticate();
+//        }
+
+
+}

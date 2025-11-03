@@ -1,0 +1,84 @@
+package com.msp.service.msp_pms;
+
+import com.msp.common.APIConnection;
+import com.msp.pms.msppmsmodel.*;
+import com.msp.pms.msppmsrepository.NotificationSystemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@Qualifier("mspPmsTransactionManager")
+@Transactional("mspPmsTransactionManager")
+public class NotificationSystemService {
+
+    @Autowired
+    public NotificationSystemRepository notificationServiceRepo;
+    NotificationSystem notifiSys = null;
+
+    public void savePartnerRegistration(MSPPartnerRegistration partnerreg, String userId) {
+        notifiSys = new NotificationSystem();
+        notifiSys.setFlag(0);
+        notifiSys.setCrdtimes(APIConnection.getUTCCurrentDateTime());
+        notifiSys.setContent(partnerreg.getPartnerId()+" Onboarding Partner Requested ");
+        notifiSys.setPartnerId(partnerreg.getPartnerId());
+        notifiSys.setAuthType(partnerreg.getPartnerType());
+        notifiSys.setActive(true);
+        notifiSys.setCrBy(userId);
+        notifiSys.setType("New Partner Registered");
+        notificationServiceRepo.save(notifiSys);
+
+    }
+
+    public void saveDeviceRegistration(MSPDeviceModelRegistration partnerreg, String userId) {
+        notifiSys  = new NotificationSystem();
+        notifiSys.setFlag(0);
+        notifiSys.setCrdtimes(APIConnection.getUTCCurrentDateTime());
+        notifiSys.setContent(partnerreg.getId()+" Onboarding Device Requested ");
+        notifiSys.setPartnerId(partnerreg.getId());
+        notifiSys.setAuthType(partnerreg.getPartnerType());
+        notifiSys.setActive(true);
+        notifiSys.setCrBy(userId);
+        notifiSys.setType("New Device Registered");
+        notificationServiceRepo.save(notifiSys);
+    }
+
+    public void savePolicyType(MSPPolicyType policy, String userId) {
+        notifiSys = new NotificationSystem();
+        notifiSys.setFlag(0);
+        notifiSys.setCrdtimes(APIConnection.getUTCCurrentDateTime());
+        notifiSys.setContent(policy.getPolicyTypeName()+" policy Type Added");
+        notifiSys.setPolicyTypeId(policy.getPolicyTypeId());
+        notifiSys.setActive(true);
+        notifiSys.setCrBy(userId);
+        notifiSys.setType("Policies Registered");
+        notificationServiceRepo.save(notifiSys);
+    }
+
+    public void savePartnerPolicyRequest(MSPPartnerPolicyRequest req, String userId) {
+        notifiSys = new NotificationSystem();
+        notifiSys.setFlag(0);
+        notifiSys.setCrdtimes(APIConnection.getUTCCurrentDateTime());
+        notifiSys.setContent("Partner Policy Approved for PartnerId- "+req.getPartId() +" and Policy Type Id-"+req.getPolicyId()+" and APIKey-"+req.getApiKey());
+        notifiSys.setPartnerPolicyRqt(req.getApiKey());
+        notifiSys.setActive(true);
+        notifiSys.setCrBy(userId);
+        notifiSys.setType("New Partner Policy Approved");
+        notificationServiceRepo.save(notifiSys);
+    }
+    public Long flagCount() {
+        return notificationServiceRepo.flagCount();
+    }
+
+    public List<NotificationSystem> notificationList() {
+        return notificationServiceRepo.notificationList();
+    }
+    public void changeNotificationList( String sno) {
+        int snoList = Integer.valueOf(sno);
+        notificationServiceRepo.changeNotificationList(snoList);
+    }
+
+}

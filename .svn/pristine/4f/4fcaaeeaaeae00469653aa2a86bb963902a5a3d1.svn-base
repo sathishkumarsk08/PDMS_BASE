@@ -1,0 +1,17 @@
+package com.msp.ida.mosipidarepository;
+
+import com.msp.ida.mosipidamodel.IDACaCertStore;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface IDACaCertStoreRepository extends CrudRepository<IDACaCertStore,String> {
+
+    @Query(nativeQuery = true, value="select * from ida.ca_cert_store where cert_subject like :organisation order by cr_dtimes asc limit 1")
+    IDACaCertStore certdel(String organisation);
+    @Query(nativeQuery = true, value="select * from ida.ca_cert_store where cert_subject like :org and partner_domain=:parttype")
+    List<IDACaCertStore> certdeletion(String org, String parttype);
+}

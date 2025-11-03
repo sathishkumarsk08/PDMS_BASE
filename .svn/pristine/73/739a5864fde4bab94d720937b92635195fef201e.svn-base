@@ -1,0 +1,32 @@
+package com.msp.pms.msppmsrepository;
+
+import com.msp.pms.msppmsmodel.DeviceRegistrationPms;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Component
+@Repository
+public interface MSPDeviceRegistrationRepository extends CrudRepository<DeviceRegistrationPms, String> {
+
+    @Query(nativeQuery = true, value = "SELECT device_id from msppms.device_registration ORDER BY device_crdtimes DESC limit 1 ")
+    public String maxPartnerId();
+
+    @Query(value = "select t from DeviceRegistrationPms t order by t.sno desc")
+    public List<DeviceRegistrationPms> regNewDevList();
+
+    @Query(value = "select t from DeviceRegistrationPms t where t.id=:deviceId")
+    public DeviceRegistrationPms editNewDev(String deviceId);
+
+    @Query(value = "select t from DeviceRegistrationPms t where t.model=:deviceId order by t.sno desc")
+    List<DeviceRegistrationPms> regNewDevListByModel(String deviceId);
+
+//    DeviceRegistrationPms findAllById(String deviceId);
+
+
+
+
+}

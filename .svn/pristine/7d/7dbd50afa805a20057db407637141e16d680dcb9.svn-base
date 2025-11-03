@@ -1,0 +1,22 @@
+package com.msp.mosip_pms.repository;
+
+
+import com.msp.mosip_pms.model.PartnerPolicyRequest;
+import com.msp.pms.msppmsmodel.MSPPartnerPolicyRequest;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+
+@Component
+@Repository
+public interface PartnerPolicyRequestRepository extends CrudRepository<PartnerPolicyRequest, String> {
+
+    @Query(nativeQuery = true, value="select pr.id, pr.name, pr.partner_type_code from pms.partner pr\n" +
+            "where pr.approval_status ='approved' and pr.partner_type_code in ('Auth_Partner','MISP_Partner') and pr.id not in (select misp_id from pms.misp_license group by misp_id) \n" +
+            "group by pr.id,pr.name,pr.partner_type_code\n" +
+            "order by pr.cr_dtimes desc\t")
+    ArrayList<Object[]> getMispDetails();
+}

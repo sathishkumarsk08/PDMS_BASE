@@ -1,0 +1,34 @@
+package com.msp.service.msp_pms;
+
+import com.msp.pms.msppmsmodel.partnerRevoked;
+import com.msp.pms.msppmsrepository.MSPPartnerRevokeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Qualifier("mspPmsTransactionManager")
+@Transactional("mspPmsTransactionManager")
+public class MSPPartnerRevokeService {
+
+    @Autowired
+    private MSPPartnerRevokeRepository mspPartnerRevokeRepository;
+
+    public boolean save(partnerRevoked policy){
+        boolean out = true;
+        try {
+            mspPartnerRevokeRepository.save(policy);
+        } catch (Exception e) {
+            e.printStackTrace();
+            out = false;
+        }
+
+        return out;
+
+    }
+
+    public String maxUserid() {
+        return mspPartnerRevokeRepository.maxUserid();
+    }
+}

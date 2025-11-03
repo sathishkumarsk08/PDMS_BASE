@@ -1,0 +1,119 @@
+package com.msp.service.mosip_pms;
+
+import com.msp.common.APIConnection;
+import com.msp.mosip_pms.model.PolicyType;
+
+import com.msp.mosip_pms.repository.PolicyTypeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@Qualifier("TransactionManager")
+@Transactional("TransactionManager")
+public class PolicyTypeService {
+
+    @Autowired
+    public PolicyTypeRepository policyTypeRepository;
+
+    public List<PolicyType> findAllPolicyGroupPolicies(String policyGroupId,String partnerId) {
+        return policyTypeRepository.findAllPolicyGroupPolicies(policyGroupId, partnerId);
+    }
+    public List<PolicyType> viewPolicyType(){
+
+        return policyTypeRepository.viewPolicyType();
+    }
+    public List<PolicyType> viewListPolicyType(List<String> rejected){
+
+        return policyTypeRepository.viewListPolicyType(rejected);
+    }
+
+    public  List<PolicyType> policyTypeList(){
+        return policyTypeRepository.ListOfPolicy();
+    }
+//    public List<PolicyType> viewListPolicyType(){
+//
+//        return policyTypeRepository.viewListPolicyType();
+//    }
+
+    public ArrayList<Object[]> getPolicyGroupType(boolean status) {
+        return policyTypeRepository.getPolicyGroupType(status);
+    }
+
+    public PolicyType getPolicyTypeName(String policies) {
+        return policyTypeRepository.getPolicyTypeName(policies);
+    }
+    public PolicyType getPolicyTypeId(String policies) {
+        return policyTypeRepository.getPolicyTypeId(policies);
+    }
+
+    public PolicyType getPolicyTypeDetail(String policies) {
+        return policyTypeRepository.getPolicyTypeDetail(policies);
+    }
+
+    public boolean updateMOSIPPolicyType(PolicyType mosipPolicy, String id) {
+        boolean out = true;
+        try {
+            PolicyType s=policyTypeRepository.findAllById(id);
+           s.setPolicyGroupId( mosipPolicy.getPolicyGroupId());
+           s.setPolicyType( mosipPolicy.getPolicyType());
+           s.setName( mosipPolicy.getName());
+           s.setActive(false);
+           s.setUpdDtimes(APIConnection.getUTCCurrentDateTime());
+            s.setPolicyFileId(mosipPolicy.getPolicyFileId());
+            policyTypeRepository.save(s);
+            out = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            out = false;
+        }
+
+        return out;
+    }
+
+    public void changeUserId(String userId, String id) {
+        policyTypeRepository.changeUserId(userId,id);
+    }
+
+    public void deleteById(String id) {
+        policyTypeRepository.deleteById(id);
+    }
+
+    public int checkPolicyGroupId(String id) {
+        return policyTypeRepository.checkPolicyGroupId(id);
+    }
+    public List<PolicyType> getPoliciesGroupBased(String policies) {
+        return policyTypeRepository.getPoliciesGroupBased(policies);
+    }
+
+    public int getCount() {
+        return policyTypeRepository.getCount();
+    }
+    public int getCount(String userId) {
+        return policyTypeRepository.getCount(userId);
+    }
+    public int getActivePolicy(String userId) {
+        return policyTypeRepository.getActivePolicy(userId);
+    }
+    public int getDeActivePolicy(String userId) {
+        return policyTypeRepository.getDeActivePolicy(userId);
+    }
+    public int getExpiryPolicy(String userId) {
+        return policyTypeRepository.getExpiryPolicy(userId);
+    }
+
+    public int getActivePolicyRole() {
+        return policyTypeRepository.getActivePolicyRole();
+    }
+    public int getDeActivePolicyRole() {
+        return policyTypeRepository.getDeActivePolicyRole();
+    }
+    public int getExpiryPolicyRole() {
+        return policyTypeRepository.getExpiryPolicyRole();
+    }
+
+}

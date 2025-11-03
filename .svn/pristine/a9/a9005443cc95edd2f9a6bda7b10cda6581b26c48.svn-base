@@ -1,0 +1,61 @@
+package com.msp.service.mosip_pms;
+
+import com.msp.mosip_pms.model.PartnerPolicy;
+import com.msp.mosip_pms.repository.PartnerPolicyRepository;
+import com.msp.pms.msppmsmodel.MSPPartnerPolicy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+
+@Transactional("TransactionManager")
+@Qualifier("mosip_partner")
+public class PartnerPolicyService {
+
+    @Autowired
+
+    PartnerPolicyRepository partnerPolicyRepository;
+
+    public PartnerPolicy getAPiKeyDetails(String apiKey) {
+        return partnerPolicyRepository.getApiKeyDetails(apiKey);
+    }
+
+    public ArrayList<Object[]> getApiRequestDetails() {
+        return partnerPolicyRepository.getApiRequestDetails();
+    }
+
+    public List<PartnerPolicy> getOnboardedApi(LocalDateTime strtDate, LocalDateTime endDate) {
+        return partnerPolicyRepository.getOnboardedApi(strtDate,endDate);
+    }
+    public BigInteger getDashboardAPIList(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return partnerPolicyRepository.getDashboardAPIList(startDateTime,endDateTime);
+    }
+
+    public List<PartnerPolicy> viewPartnerApi(boolean status) {
+        return partnerPolicyRepository.viewPartnerApi(status);
+    }
+
+    public ArrayList<Object[]> getAPIMispPartnerDetails(){
+        return partnerPolicyRepository.getAPIMispDetails();
+    }
+
+    public int DeleteApiKey(String partId, String apikey) {
+     return   partnerPolicyRepository.DeleteApiKey(partId,apikey);
+
+    }
+
+    public int checkPolicyId(String id) {
+        return  partnerPolicyRepository.checkPolicyId(id);
+    }
+
+    public ArrayList<Object[]> getPolicyList(String partnerId) {
+        return partnerPolicyRepository.getPolicyList(partnerId);
+    }
+}

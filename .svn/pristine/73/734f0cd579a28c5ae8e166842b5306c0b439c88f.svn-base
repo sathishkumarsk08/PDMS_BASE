@@ -1,0 +1,44 @@
+package com.msp.mosip_pms.repository;
+
+import com.msp.mosip_pms.model.MispLicenseKey;
+import com.msp.mosip_pms.model.PartnerRegistration;
+import com.msp.pms.msppmsmodel.MSPMosipLicense;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
+import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Component
+@Repository
+public interface MispLicenseKeyRepository extends CrudRepository<MispLicenseKey, String> {
+
+
+    @Query("select u from MispLicenseKey u where  u.crDtimes>=:startDateTime and u.crDtimes<=:endDateTime order by u.crDtimes desc")
+    List<MispLicenseKey> getOnboardedLicense(LocalDateTime startDateTime, LocalDateTime endDateTime);
+
+    @Query("select count(u) from MispLicenseKey u where  u.crDtimes>=:strtDate and u.crDtimes<=:endDate and u.active=true ")
+    BigInteger getDashboarLicenseList(LocalDateTime strtDate, LocalDateTime endDate);
+
+    @Query(value = "SELECT t  from MispLicenseKey t where t.active=:status order by t.crDtimes desc")
+    List<MispLicenseKey> viewPartnerLicense(boolean status);
+
+    @Modifying
+    @Query(value = "delete from MispLicenseKey t where t.id=:partId and t.key=:licenseKey")
+    int DeleteLicenseKey(String partId, String licenseKey);
+
+
+    @Modifying
+    @Query(value = "update  MispLicenseKey t set t.active=:status where t.id=:providerId and t.key=:licenseKey")
+    int updateStatus(boolean status, String providerId, String licenseKey);
+
+    @Query(value = "SELECT t  from MispLicenseKey t where t.active=true and t.deleted=false order by t.crDtimes desc")
+    List<MispLicenseKey> getTSPPartnerDetails();
+
+    @Query(value = "SELECT t  from MispLicenseKey t where t.id=:partnerId")
+    MispLicenseKey getLicenseKeyDetails(String partnerId);
+}
