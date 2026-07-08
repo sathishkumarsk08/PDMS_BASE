@@ -35,13 +35,13 @@ public class APIConnection {
     private static File propertyFile;
 
 
-    @Autowired
-    static RestTemplate restTemplate;
-
     public static String connectApi(String http_url, String methodType, String request, String connectionType){
+
         OutputStream ouputStream = null;
         String http_response = null;
         try {
+            System.out.println("turn off ssl check");
+            turnOffSslChecking();
             URLConnection url = new URL(http_url).openConnection();
             url.setRequestProperty("Content-Type", "application/json");
             url.setRequestProperty("Accept", "application/json");
@@ -68,9 +68,7 @@ public class APIConnection {
                 http_response = tmpStr;
             }
             System.out.println("API.....TText :"+http_response);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return http_response;
@@ -203,7 +201,9 @@ public class APIConnection {
 
 
     public static ResourceBundle readConfig(){
+        System.out.println("calling read config");
         ResourceBundle bundle = null;
+
         try {
             ClassPathResource pmsConfigRes = new ClassPathResource("PMS_config.conf");
 
@@ -216,6 +216,41 @@ public class APIConnection {
         } catch (Exception e) {
             throw new RuntimeException("❌ Failed to load config files from resources", e);
         }
+//        try{
+////            String filePath1 = new FileSystemResource("").getFile().getAbsolutePath();
+////            FileInputStream inputStream = new FileInputStream(filePath1+"/PMS_config.conf");
+////            System.out.println("file path:"+filePath1);
+////            bundle = new PropertyResourceBundle(inputStream);
+//
+//            String sOsName = System.getProperty("os.name");
+//            if (sOsName.startsWith("Windows")) {
+//                System.out.println("WINDOWS OS");
+//                String filePath = new FileSystemResource("").getFile().getAbsolutePath();
+//                propertyFile = new File(filePath+"/PMS_config.conf");
+//                FileInputStream inputStream1 = new FileInputStream(propertyFile+"/PMS_config.conf");
+////                FileInputStream inputStream1 = new FileInputStream(propertyFile+"/PMS_config.conf");
+//                bundle = new PropertyResourceBundle(inputStream1);
+//                System.out.println("filepath :"+filePath);
+//            } else {
+//                System.out.println("else linux OS");
+//                if ((sOsName.startsWith("Linux")) || (sOsName.startsWith("Mac")) || (sOsName.startsWith("HP-UX"))) {
+//                    System.out.println("LINUX OS read config");
+//                    File catalinaBase = new File(System.getProperty("catalina.base")).getAbsoluteFile();
+//                    propertyFile = new File(catalinaBase, "bin/PMS_config.conf");
+//                    FileInputStream inputStream1 = new FileInputStream(propertyFile);
+//                    bundle = new PropertyResourceBundle(inputStream1);
+//                } else {
+//                    System.out.println("The current operating system '" + sOsName + "' is not supported.");
+//                }
+//            }
+//        } catch (FileNotFoundException exception){
+//            System.out.println("FileNotFoundException ");
+//            exception.printStackTrace();
+//        } catch (IOException e) {
+//            System.out.println("IOException ");
+//            e.printStackTrace();
+//
+//        }
 
         return bundle;
     }
@@ -273,6 +308,11 @@ public class APIConnection {
             e.printStackTrace();
         }
         try{
+            String url = bundle.getString("base.url")
+                    + bundle.getString("version")
+                    + bundle.getString("authmanager.url");
+            System.out.println("REQUEST URL  : " + url);
+
             connectApi(bundle.getString("base.url")+bundle.getString("version")+bundle.getString("authmanager.url"),
                     "POST",template.toString(),"Auth");
 //

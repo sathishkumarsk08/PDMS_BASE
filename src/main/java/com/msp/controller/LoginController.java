@@ -54,8 +54,8 @@ import static com.msp.controller.RPController.UNQUESTIONING_TRUST_MANAGER;
 @RestController
 @Scope("session")
 public class LoginController {
-    @Autowired
-    LoginDAO logindao;
+//    @Autowired
+//    LoginDAO logindao;
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
     @Autowired
