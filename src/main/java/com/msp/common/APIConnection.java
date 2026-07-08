@@ -3,6 +3,7 @@ package com.msp.common;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.util.MultiValueMap;
@@ -162,40 +163,60 @@ public class APIConnection {
         return response;
     }
 
+//    public static ResourceBundle readConfig(){
+//        ResourceBundle bundle = null;
+//        try{
+//            String filePath1 = new FileSystemResource("").getFile().getAbsolutePath();
+//            FileInputStream inputStream = new FileInputStream(filePath1+"/PMS_config.conf");
+//            System.out.println("file path:"+filePath1);
+//            bundle = new PropertyResourceBundle(inputStream);
+////            String sOsName = System.getProperty("os.name");
+////
+////            if (sOsName.startsWith("Windows")) {
+////                System.out.println("WINDOWS OS");
+////                String filePath = new FileSystemResource("").getFile().getAbsolutePath();
+////                propertyFile = new File(filePath+"/PMS_config.conf");
+////                FileInputStream inputStream1 = new FileInputStream(propertyFile+"/PMS_config.conf");
+//////                FileInputStream inputStream1 = new FileInputStream(propertyFile+"/PMS_config.conf");
+////                bundle = new PropertyResourceBundle(inputStream1);
+////                System.out.println("filepath :"+filePath);
+////            } else {
+////
+////                if ((sOsName.startsWith("Linux")) || (sOsName.startsWith("Mac")) || (sOsName.startsWith("HP-UX"))) {
+////                    System.out.println("LINUX OS");
+////                    File catalinaBase = new File(System.getProperty("catalina.base")).getAbsoluteFile();
+////                    propertyFile = new File(catalinaBase, "bin/PMS_config.conf");
+////                    FileInputStream inputStream1 = new FileInputStream(propertyFile+"/PMS_config.conf");
+////                    bundle = new PropertyResourceBundle(inputStream1);
+////                } else {
+////                    System.out.println("The current operating system '" + sOsName + "' is not supported.");
+////                }
+////            }
+//        } catch (FileNotFoundException exception){
+//            System.out.println("FileNotFoundException ");
+//        } catch (IOException e) {
+//            System.out.println("IOException ");
+//        }
+//        return bundle;
+//    }
+
+
+
     public static ResourceBundle readConfig(){
         ResourceBundle bundle = null;
-        try{
-            String filePath1 = new FileSystemResource("").getFile().getAbsolutePath();
-            FileInputStream inputStream = new FileInputStream(filePath1+"/PMS_config.conf");
-            System.out.println("file path:"+filePath1);
-            bundle = new PropertyResourceBundle(inputStream);
-//            String sOsName = System.getProperty("os.name");
-//
-//            if (sOsName.startsWith("Windows")) {
-//                System.out.println("WINDOWS OS");
-//                String filePath = new FileSystemResource("").getFile().getAbsolutePath();
-//                propertyFile = new File(filePath+"/PMS_config.conf");
-//                FileInputStream inputStream1 = new FileInputStream(propertyFile+"/PMS_config.conf");
-////                FileInputStream inputStream1 = new FileInputStream(propertyFile+"/PMS_config.conf");
-//                bundle = new PropertyResourceBundle(inputStream1);
-//                System.out.println("filepath :"+filePath);
-//            } else {
-//
-//                if ((sOsName.startsWith("Linux")) || (sOsName.startsWith("Mac")) || (sOsName.startsWith("HP-UX"))) {
-//                    System.out.println("LINUX OS");
-//                    File catalinaBase = new File(System.getProperty("catalina.base")).getAbsoluteFile();
-//                    propertyFile = new File(catalinaBase, "bin/PMS_config.conf");
-//                    FileInputStream inputStream1 = new FileInputStream(propertyFile+"/PMS_config.conf");
-//                    bundle = new PropertyResourceBundle(inputStream1);
-//                } else {
-//                    System.out.println("The current operating system '" + sOsName + "' is not supported.");
-//                }
-//            }
-        } catch (FileNotFoundException exception){
-            System.out.println("FileNotFoundException ");
-        } catch (IOException e) {
-            System.out.println("IOException ");
+        try {
+            ClassPathResource pmsConfigRes = new ClassPathResource("PMS_config.conf");
+
+            try (InputStream is2 = pmsConfigRes.getInputStream()) {
+                bundle = new PropertyResourceBundle(is2);
+            }
+
+            System.out.println("✅ Config files loaded from classpath");
+
+        } catch (Exception e) {
+            throw new RuntimeException("❌ Failed to load config files from resources", e);
         }
+
         return bundle;
     }
 

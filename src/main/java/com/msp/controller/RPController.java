@@ -211,7 +211,9 @@ public class RPController {
             String parterType = null;
             int generInt ;
             int generIntMSP ;
-            String userIdGenerate = partnerRegistrationService.maxUserid();
+            String userIdGenerate = String.valueOf(10000 + new Random().nextInt(90000));
+            System.out.println(userIdGenerate);
+//            String userIdGenerate = partnerRegistrationService.maxUserid();
 //            String userIdMSPGenerate = partnerRegistrationMSPService.maxUserid();
             String policyGrp = jsonObject.get("policyGroup").toString();
             String PolicyGroupId = policyGroupService.getPolicyGroupId(policyGrp);
@@ -222,34 +224,65 @@ public class RPController {
                 parterType = "Auth_Partner";
             }
 
-            if (userIdGenerate == null || userIdGenerate.length() == 0 || userIdGenerate.length() <= 5) {
-                if(jsonObject.get("selectedType").toString().equals("RP+TSP") ){
-                    partnerId = "AP_TSP" + APIConnection.formatToGenerateID(APIConnection.getUTCCurrentDateTime()) + "00001";
-                    partnerreg.setSelectedType("both");
-                }else if(jsonObject.get("selectedType").toString().equals("TSP")){
-                    partnerId = "TSP" + APIConnection.formatToGenerateID(APIConnection.getUTCCurrentDateTime()) + "00001";
-                    partnerreg.setSelectedType("tsp");
-                }else if(jsonObject.get("selectedType").toString().equals("Auth_Partner")){
-                    partnerId = "AP" + APIConnection.formatToGenerateID(APIConnection.getUTCCurrentDateTime()) + "00001";
-                    partnerreg.setSelectedType("rp");
+            if (userIdGenerate != null ) {
+//                if(jsonObject.get("selectedType").toString().equals("RP+TSP") ){
+//                    partnerId = "AP_TSP" + APIConnection.formatToGenerateID(APIConnection.getUTCCurrentDateTime()) + "00001";
+//                    partnerreg.setSelectedType("both");
+//                }else if(jsonObject.get("selectedType").toString().equals("TSP")){
+//                    partnerId = "TSP" + APIConnection.formatToGenerateID(APIConnection.getUTCCurrentDateTime()) + "00001";
+//                    partnerreg.setSelectedType("tsp");
+//                }else if(jsonObject.get("selectedType").toString().equals("Auth_Partner")){
+//                    partnerId = "AP" + APIConnection.formatToGenerateID(APIConnection.getUTCCurrentDateTime()) + "00001";
+//                    partnerreg.setSelectedType("rp");
+//                }
+//
+//            } else{
+                logger.info("========== Partner ID Generation Started ==========");
+                logger.info("userIdGenerate : {}", userIdGenerate);
+
+                String sentence = userIdGenerate;
+                logger.info("sentence : {}", sentence);
+
+                String name = new StringBuilder(sentence).reverse().toString();
+                logger.info("Reversed string (name) : {}", name);
+
+                String val = name.substring(0, 5);
+                logger.info("First 5 chars after reverse (val) : {}", val);
+
+                String name2 = new StringBuilder(val).reverse().toString();
+                logger.info("Reversed back (name2) : {}", name2);
+
+                try {
+                    long nextValue = Long.parseLong(name2) + 1;
+                    logger.info("Parsed number : {}", nextValue - 1);
+                    logger.info("Incremented number : {}", nextValue);
+
+                    text = String.format("%0" + name2.length() + "d", nextValue);
+                    logger.info("Generated text : {}", text);
+
+                } catch (NumberFormatException e) {
+                    logger.error("Failed to parse '{}' as a number.", name2);
+                    logger.error("userIdGenerate : {}", userIdGenerate);
+                    logger.error("Reversed string : {}", name);
+                    logger.error("Substring : {}", val);
+                    throw e;
                 }
 
-            } else{
-                String sentence=userIdGenerate;
-                String name= new StringBuilder(sentence).reverse().toString();
-                String val= name.substring(0,5);
-                String name2= new StringBuilder(val).reverse().toString();
-                text = String.format("%0" + name2.length() + "d", Long.parseLong(name2) + 1);
-                if(jsonObject.get("selectedType").toString().equals("RP+TSP") ){
+                logger.info("Selected Type : {}", jsonObject.get("selectedType"));
+
+                if (jsonObject.get("selectedType").toString().equals("RP+TSP")) {
                     partnerId = "AP_TSP" + APIConnection.formatToGenerateID(APIConnection.getUTCCurrentDateTime()) + text;
                     partnerreg.setSelectedType("both");
-                }else if(jsonObject.get("selectedType").toString().equals("TSP")){
+                } else if (jsonObject.get("selectedType").toString().equals("TSP")) {
                     partnerId = "TSP" + APIConnection.formatToGenerateID(APIConnection.getUTCCurrentDateTime()) + text;
                     partnerreg.setSelectedType("tsp");
-                }else if(jsonObject.get("selectedType").toString().equals("Auth_Partner")){
+                } else if (jsonObject.get("selectedType").toString().equals("Auth_Partner")) {
                     partnerId = "AP" + APIConnection.formatToGenerateID(APIConnection.getUTCCurrentDateTime()) + text;
                     partnerreg.setSelectedType("rp");
                 }
+
+                logger.info("Generated Partner ID : {}", partnerId);
+                logger.info("========== Partner ID Generation Completed ==========");
 
             }
             org.json.JSONObject template = new org.json.JSONObject(bundle.getString("template"));
@@ -437,6 +470,7 @@ public class RPController {
                                     auditRequestFactory.buildRequest(AuditModules.PDMS_PARTNER, AuditEvents.PARTNER_EVENT, "NO_ID", transactionId, "Create "+selectedParType+" Partner failed", request);
 
                                 }
+
                                 return returnVal;
 
                             }
@@ -453,7 +487,6 @@ public class RPController {
 
 
             }
-
 
 
 

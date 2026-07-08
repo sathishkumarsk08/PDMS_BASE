@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -29,35 +30,54 @@ import java.util.ResourceBundle;
 //        "com.msp.mosip_pms.repository"})
 public class MosipPMS {
     File propertyFile;
+    ResourceBundle resource = null;
+
+//    public void OSCheck() {
+//        String command = "";
+//        String sOsName = System.getProperty("os.name");
+//
+//        if (sOsName.startsWith("Windows")) {
+//            System.out.println("WINDOWS OS");
+//            String filePath = new FileSystemResource("").getFile().getAbsolutePath();
+//            propertyFile = new File(filePath+"/PMS.conf");
+//            System.out.println("filepath :"+filePath);
+//        } else {
+//
+//            if ((sOsName.startsWith("Linux")) || (sOsName.startsWith("Mac")) || (sOsName.startsWith("HP-UX"))) {
+//                System.out.println("LINUX OS");
+//                File catalinaBase = new File(System.getProperty("catalina.base")).getAbsoluteFile();
+//                propertyFile = new File(catalinaBase, "bin/PMS.conf");
+//            } else {
+//                System.out.println("The current operating system '" + sOsName + "' is not supported.");
+//            }
+//        }
+//    }
 
     public void OSCheck() {
-        String command = "";
-        String sOsName = System.getProperty("os.name");
+        try {
+            ClassPathResource pmsRes = new ClassPathResource("PMS.conf");
 
-        if (sOsName.startsWith("Windows")) {
-            System.out.println("WINDOWS OS");
-            String filePath = new FileSystemResource("").getFile().getAbsolutePath();
-            propertyFile = new File(filePath+"/PMS.conf");
-            System.out.println("filepath :"+filePath);
-        } else {
+            try (InputStream is1 = pmsRes.getInputStream()) {
 
-            if ((sOsName.startsWith("Linux")) || (sOsName.startsWith("Mac")) || (sOsName.startsWith("HP-UX"))) {
-                System.out.println("LINUX OS");
-                File catalinaBase = new File(System.getProperty("catalina.base")).getAbsoluteFile();
-                propertyFile = new File(catalinaBase, "bin/PMS.conf");
-            } else {
-                System.out.println("The current operating system '" + sOsName + "' is not supported.");
+                resource = new PropertyResourceBundle(is1);
             }
+
+            System.out.println("✅ Config files loaded from classpath");
+
+        } catch (Exception e) {
+            throw new RuntimeException("❌ Failed to load config files from resources", e);
         }
     }
-//    @Primary
+
+
+    //    @Primary
     @Bean(name = "mosipPms")
     public DataSource dataSource() {
         OSCheck();
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         try {
-            InputStream in = new FileInputStream(propertyFile);
-            ResourceBundle resource = new PropertyResourceBundle(in);
+//            InputStream in = new FileInputStream(propertyFile);
+//            ResourceBundle resource = new PropertyResourceBundle(in);
             dataSource.setDriverClassName("org.postgresql.Driver");
             dataSource.setUrl(resource.getString("db.url"));
             dataSource.setUsername(resource.getString("db.username"));

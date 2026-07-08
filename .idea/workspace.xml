@@ -83,6 +83,7 @@
       <command value="mvn clea" />
       <command value="mvn clean" />
       <command value="mvn install" />
+      <command value="mvn clean install" />
     </option>
   </component>
   <component name="RunDashboard">
@@ -213,6 +214,19 @@
       <workItem from="1750479649895" duration="6030000" />
       <workItem from="1751448425726" duration="1855000" />
       <workItem from="1753767819922" duration="208000" />
+      <workItem from="1762165284118" duration="1147000" />
+      <workItem from="1762166441386" duration="2500000" />
+      <workItem from="1763702033038" duration="756000" />
+      <workItem from="1764133894019" duration="1193000" />
+      <workItem from="1764749529836" duration="2392000" />
+      <workItem from="1765427970433" duration="97000" />
+      <workItem from="1767687652722" duration="1328000" />
+      <workItem from="1770610726360" duration="15999000" />
+      <workItem from="1771566612618" duration="1196000" />
+      <workItem from="1771999479710" duration="1290000" />
+      <workItem from="1778212381459" duration="4302000" />
+      <workItem from="1779438060436" duration="6083000" />
+      <workItem from="1783506095961" duration="4761000" />
     </task>
     <servers />
   </component>
