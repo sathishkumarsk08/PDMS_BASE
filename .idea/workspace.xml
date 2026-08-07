@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a71b301a-f757-4b9e-a008-c40af15cf53d" name="Changes" comment="" />
+    <list default="true" id="a71b301a-f757-4b9e-a008-c40af15cf53d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/overlays/com.msp.PDMS_OBFUSCATE_CORE_1.0-0.0.1-SNAPSHOT.info" beforeDir="false" afterPath="$PROJECT_DIR$/overlays/com.msp.PDMS_OBFUSCATE_CORE_1.0-0.0.1-SNAPSHOT.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/PSA_service/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/msp/App.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,33 +54,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Maven.maven [clean].executor": "Run",
-    "Maven.maven [install].executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.App.executor": "Run",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "PSA__PDMS__OBFUSCATE__BASE__1.0",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/M982/Desktop/PDMS Obfuscation/base/PDMS/src/main/java/com/msp",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
-    "spring.configuration.checksum": "402c5d9af6b43711ea070bee5170f74d",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven.maven [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.maven [install].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.App.executor&quot;: &quot;Run&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;PSA__PDMS__OBFUSCATE__BASE__1.0&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/M982/Desktop/PDMS Obfuscation/base/PDMS/src/main/java/com/msp&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;402c5d9af6b43711ea070bee5170f74d&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\M982\Desktop\PDMS Obfuscation\base\PDMS\src\main\java\com\msp" />
@@ -102,10 +106,10 @@
   <component name="RunManager">
     <configuration name="App" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
       <module name="maven" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.msp.PSA_service.App" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.msp.App" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.msp.PSA_service.*" />
+          <option name="PATTERN" value="com.msp.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
