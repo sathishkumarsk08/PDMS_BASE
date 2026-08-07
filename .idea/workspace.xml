@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a71b301a-f757-4b9e-a008-c40af15cf53d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/overlays/com.msp.PDMS_OBFUSCATE_CORE_1.0-0.0.1-SNAPSHOT.info" beforeDir="false" afterPath="$PROJECT_DIR$/overlays/com.msp.PDMS_OBFUSCATE_CORE_1.0-0.0.1-SNAPSHOT.info" afterDir="false" />
-    </list>
+    <list default="true" id="a71b301a-f757-4b9e-a008-c40af15cf53d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
