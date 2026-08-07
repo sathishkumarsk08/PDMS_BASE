@@ -17,7 +17,35 @@
 <!--        <maven.compiler.source>1.8</maven.compiler.source>-->
 <!--        <maven.compiler.target>1.8</maven.compiler.target>-->
 <!--    </properties>-->
+
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <url>http://artifactory-http-mosip.apps.uat2.phylsys.gov.ph/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <dependencies>
+
+        <dependency>
+            <groupId>com.msp</groupId>
+            <artifactId>PDMS_OBFUSCATE_CORE_1.0</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <type>war</type>
+            <!--			<exclusions>-->
+            <!--				<exclusion>-->
+            <!--					<groupId>org.springframework.boot</groupId>-->
+            <!--					<artifactId>spring-boot-starter-security</artifactId>-->
+            <!--				</exclusion>-->
+            <!--			</exclusions>-->
+        </dependency>
+
         <!-- Provided -->
         <dependency>
             <groupId>org.json</groupId>

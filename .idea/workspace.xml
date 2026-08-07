@@ -5,7 +5,177 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a71b301a-f757-4b9e-a008-c40af15cf53d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Audit/AuditEvents.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Audit/AuditModules.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Audit/AuditRequestDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Audit/AuditResponseDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Audit/AuthError.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Audit/Factory/AuditRequestFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Audit/RequestWrapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/AuthPartnerRegistrationBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/Certificate.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/DashboardCount.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/FristChildBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/MasterPartnerBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/MenuBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/ParentBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/PartnerSusBlackBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/PartnerTypeBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/Policies.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/PoliciesPartnerTypeBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/PoliciesUserDetailBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/PolicyGroupTypeBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/RegistratedCount.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/ReportLogBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/ResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/RoleBasedMenuBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/SecondChildBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/TSP.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/UserdetailBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/Bean/partnerBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/DbConfig/IDA.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/DbConfig/KeyManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/DbConfig/MosipPMS.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/DbConfig/PMS.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/PSA_service/App.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/common/APIConnection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/common/AuditRequestDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/common/AuthLockError.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/common/AuthenticationMosipUrl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/common/EmailNotifyResponseDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/common/Encryption.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/common/MacAddress.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/common/MailService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/common/PolicyManageEnum.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/common/ResponseCodes.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/common/SendEmail.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/common/Transaction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/dao/AuthenticationMosipDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/dao/EncryptionKeyDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/ida/mosipidamodel/IDACaCertStore.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/ida/mosipidamodel/IDAFIRcertstore.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/ida/mosipidarepository/IDACaCertStoreRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/keymanager/moispkeymanagermodel/KeyManagerCaCertStore.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/keymanager/moispkeymanagermodel/KeyManagerPartnerCertStore.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/keymanager/moispkeymangrepository/KeyManagrCaCertStoreRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/keymanager/moispkeymangrepository/KeyMgrPartCertStoreRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/model/MispLicenseKey.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/model/MstRoleGroup.hbm.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/model/MstRoleGroup.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/model/PartnerPolicy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/model/PartnerPolicyRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/model/PartnerRegistration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/model/PolicyGroup.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/model/PolicyType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/model/Userdetails.hbm.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/model/Userdetails.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/model/partner.hbm.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/model/partner.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/repository/MispLicenseKeyRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/repository/MstRoleGroupRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/repository/PartnerPolicyRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/repository/PartnerPolicyRequestRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/repository/PartnerRegistrationRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/repository/PolicyGroupRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/repository/PolicyTypeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/mosip_pms/repository/partnerRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/AuditLogs.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/DeviceBlacklisted.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/DeviceRegistrationPms.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/DeviceRevoked.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/DeviceSuspended.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/LoginDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/MSPCertificateStore.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/MSPDeviceModelRegistration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/MSPFeatureMaster.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/MSPMailTemplate.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/MSPMosipLicense.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/MSPOtpRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/MSPPartnerPolicy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/MSPPartnerPolicyRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/MSPPartnerRegistration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/MSPPartnerSuspension.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/MSPPolicyType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/MSPRoleFeature.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/MSPRoles.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/MSPSignCertStore.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/MspDeviceStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/MspPartnerRegSuspension.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/NotificationSystem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/PartnerType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/PolicyGroupPms.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/UserManagementDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/Userdetails.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/partnerRevoked.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsmodel/partnerblacklisted.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPAuditLogRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPBacklistRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPCertificateStoreRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPDeviceBlacklistedRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPDeviceModelRegistrationRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPDeviceRegistrationRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPDeviceRevokeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPDeviceSuspensionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPFeatureMasterRepoistory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPMailTemplateRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPMispLicenseRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPOtpRequestRegistration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPPartnerPolicyRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPPartnerPolicyRequestRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPPartnerRegistrationRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPPartnerRevokeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPPartnerSuspensionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPPolicyGroupRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPPolicyTypeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPRoleRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MSPSignCertStoreRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MspPartnerTypeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MspRegDevStatusRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/MspRegPartSusRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/NotificationSystemRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/pms/msppmsrepository/UserdetailsRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/IDACaCertStoreService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/KeyMgrCaCertStoreService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/KeyMgrPartCertStoreService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/UserdetailsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/mosip_pms/MispLicenseKeyService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/mosip_pms/PartnerPolicyRequestService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/mosip_pms/PartnerPolicyService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/mosip_pms/PartnerRegistrationService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/mosip_pms/PolicyGroupService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/mosip_pms/PolicyTypeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/mosip_pms/partnerService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/DeviceModelRegistrationMSPService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPAuditLogs.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPBacklistService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPCertificateStoreService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPDeviceBlacklistedService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPDeviceRegistrationService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPDeviceRevokeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPDeviceSuspensionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPFeatureMasterService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPMailTemplateService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPMsipLicenseService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPOtpService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPPartnerPolicyRequestService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPPartnerPolicyService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPPartnerRevokeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPPartnerSuspensionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPPolicyGroupService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPPolicyTypeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPRoleService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MSPSignCertStoreService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MspPartnerTypeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MspRegDeviceStatusService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MspRegPartSuspension.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/MstRoleGroupService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/NotificationSystemService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/service/msp_pms/PartnerRegistrationMSPService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/util/AuditConstant.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/msp/util/PartnerManageEnum.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,33 +222,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Maven.maven [clean].executor": "Run",
-    "Maven.maven [install].executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.App.executor": "Run",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "PSA__PDMS__OBFUSCATE__BASE__1.0",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/Philippines/PDMS (10-11-25)/PDMS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
-    "spring.configuration.checksum": "402c5d9af6b43711ea070bee5170f74d",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven.maven [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.maven [install].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.App.executor&quot;: &quot;Run&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;PSA__PDMS__OBFUSCATE__BASE__1.0&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Philippines/PDMS (10-11-25)/PDMS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;402c5d9af6b43711ea070bee5170f74d&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\Philippines\PDMS\PMS_SERVICE_V1\src\main\java\com\msp\Audit" />
@@ -245,6 +415,7 @@
       <workItem from="1762750585586" duration="22542000" />
       <workItem from="1765536489884" duration="3732000" />
       <workItem from="1765791707391" duration="4488000" />
+      <workItem from="1786085011386" duration="1359000" />
     </task>
     <servers />
   </component>
