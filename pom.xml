@@ -37,7 +37,7 @@
             <groupId>com.msp</groupId>
             <artifactId>PDMS_OBFUSCATE_CORE_1.0</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <type>war</type>
+<!--            <type>war</type>-->
             <!--			<exclusions>-->
             <!--				<exclusion>-->
             <!--					<groupId>org.springframework.boot</groupId>-->
